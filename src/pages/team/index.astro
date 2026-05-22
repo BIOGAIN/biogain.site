@@ -1,0 +1,409 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+import type { CollectionEntry } from "astro:content";
+import TeamMemberCard from "@/components/TeamMemberCard.astro";
+import TeamMemberModal from "@/components/TeamMemberModal.astro";
+
+// Fetch all team members
+const allMembers = await getCollection("team");
+
+// Sort helpers
+function getSurname(name: string): string {
+  const parts = name.trim().split(/\s+/);
+  return parts[parts.length - 1].toLowerCase();
+}
+
+const sortedAlphabetically = [...allMembers].sort((a, b) =>
+  getSurname(a.data.name).localeCompare(getSurname(b.data.name), "en")
+);
+
+// Group by affiliation for the affiliation sort
+const affiliationOrder = [
+  "BOKU University",
+  "Technische Universität Berlin",
+  "Wrocław University of Environmental and Life Sciences",
+  "Aalborg University",
+  "Universiteit Utrecht",
+];
+
+function affiliationSortIndex(affiliation: string): number {
+  const idx = affiliationOrder.indexOf(affiliation);
+  return idx === -1 ? affiliationOrder.length : idx;
+}
+
+const groupedByAffiliation = sortedAlphabetically.reduce<
+  Map<string, CollectionEntry<"team">[]>
+>((acc, member) => {
+  const aff = member.data.affiliation;
+  if (!acc.has(aff)) acc.set(aff, []);
+  acc.get(aff)!.push(member);
+  return acc;
+}, new Map());
+
+const sortedGroups = [...groupedByAffiliation.entries()].sort(
+  ([a], [b]) => affiliationSortIndex(a) - affiliationSortIndex(b)
+);
+---
+
+<BaseLayout
+  title="Team"
+  description="Meet the researchers and practitioners behind BIOGAIN — a European consortium working on biodiversity-positive energy planning."
+>
+  <!--
+    Anti-FOUC: apply saved sort + view before first paint so the page
+    never flashes in the wrong state.
+  -->
+  <script is:inline>
+    (function () {
+      try {
+        var sort = localStorage.getItem("team-sort") || "alpha";
+        var view = localStorage.getItem("team-view") || "list";
+        document.documentElement.dataset.teamSort = sort;
+        document.documentElement.dataset.teamView = view;
+      } catch (_) {}
+    })();
+  </script>
+
+  <div class="container max-w-5xl mx-auto py-20 px-4 sm:px-6">
+    <!-- Page header -->
+    <div class="mb-16">
+      <h1 class="text-7xl font-bold tracking-tight mb-8">Team</h1>
+      <p class="text-xl text-muted-foreground max-w-2xl">
+        The BIOGAIN consortium brings together researchers and practitioners
+        from five European universities, working together to advance
+        biodiversity-positive energy planning.
+      </p>
+    </div>
+
+    <!-- Controls row: sort (left) + view toggle (right) -->
+    <div
+      class="flex items-center justify-between gap-4 mb-12 flex-wrap"
+      role="group"
+      aria-label="Team display controls"
+    >
+      <!-- Sort buttons (left) -->
+      <div class="flex items-center gap-2">
+        <span class="text-sm text-muted-foreground mr-1">Sort by:</span>
+        <button
+          id="sort-alphabetical"
+          class="px-4 py-1.5 rounded-full text-sm font-medium transition-colors border border-border"
+          aria-pressed="true"
+        >
+          Alphabetical (surname)
+        </button>
+        <button
+          id="sort-affiliation"
+          class="px-4 py-1.5 rounded-full text-sm font-medium transition-colors border border-border"
+          aria-pressed="false"
+        >
+          By affiliation
+        </button>
+      </div>
+
+      <!-- View toggle (right) -->
+      <div class="flex items-center gap-2">
+        <span class="text-sm text-muted-foreground mr-1">View:</span>
+        <button
+          id="view-list-btn"
+          class="px-4 py-1.5 rounded-full text-sm font-medium transition-colors border border-border"
+          aria-pressed="true"
+          aria-label="List view"
+        >
+          <!-- List icon -->
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            class="w-4 h-4 inline-block"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <line x1="8" y1="6" x2="21" y2="6"></line>
+            <line x1="8" y1="12" x2="21" y2="12"></line>
+            <line x1="8" y1="18" x2="21" y2="18"></line>
+            <line x1="3" y1="6" x2="3.01" y2="6"></line>
+            <line x1="3" y1="12" x2="3.01" y2="12"></line>
+            <line x1="3" y1="18" x2="3.01" y2="18"></line>
+          </svg>
+          <span class="ml-1">List</span>
+        </button>
+        <button
+          id="view-grid-btn"
+          class="px-4 py-1.5 rounded-full text-sm font-medium transition-colors border border-border"
+          aria-pressed="false"
+          aria-label="Grid view"
+        >
+          <!-- Grid icon -->
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            class="w-4 h-4 inline-block"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <rect x="3" y="3" width="7" height="7"></rect>
+            <rect x="14" y="3" width="7" height="7"></rect>
+            <rect x="14" y="14" width="7" height="7"></rect>
+            <rect x="3" y="14" width="7" height="7"></rect>
+          </svg>
+          <span class="ml-1">Grid</span>
+        </button>
+      </div>
+    </div>
+
+    <!--
+      Four rendered containers:
+        alpha-list  — alphabetical, list layout
+        alpha-grid  — alphabetical, grid layout
+        affil-list  — by affiliation, list layout
+        affil-grid  — by affiliation, grid layout
+
+      JavaScript shows exactly one at a time, matching current sort + view.
+    -->
+
+    <!-- Alphabetical · List -->
+    <div id="view-alpha-list" class="space-y-0">
+      {
+        sortedAlphabetically.map((member) => (
+          <TeamMemberCard member={member} layout="list" />
+        ))
+      }
+    </div>
+
+    <!-- Alphabetical · Grid -->
+    <div
+      id="view-alpha-grid"
+      class="hidden grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-x-6 gap-y-10"
+    >
+      {
+        sortedAlphabetically.map((member) => (
+          <TeamMemberCard member={member} layout="grid" />
+        ))
+      }
+    </div>
+
+    <!-- Affiliation · List -->
+    <div id="view-affil-list" class="hidden space-y-0">
+      {
+        sortedGroups.map(([affiliation, items]) => {
+          const short = items[0].data.affiliationShort;
+          const country = items[0].data.country;
+          return (
+            <section class="mb-12 last:mb-0">
+              <div class="mb-6 pb-3 border-b border-border">
+                <h2 class="text-2xl font-semibold">{affiliation}</h2>
+                {(short || country) && (
+                  <p class="text-sm text-muted-foreground mt-1">
+                    {[short, country].filter(Boolean).join(" · ")}
+                  </p>
+                )}
+              </div>
+              <div class="space-y-0">
+                {items.map((member) => (
+                  <TeamMemberCard member={member} layout="list" />
+                ))}
+              </div>
+            </section>
+          );
+        })
+      }
+    </div>
+
+    <!-- Affiliation · Grid -->
+    <div id="view-affil-grid" class="hidden space-y-16">
+      {
+        sortedGroups.map(([affiliation, items]) => {
+          const short = items[0].data.affiliationShort;
+          const country = items[0].data.country;
+          return (
+            <section>
+              <div class="mb-8 pb-3 border-b border-border">
+                <h2 class="text-2xl font-semibold">{affiliation}</h2>
+                {(short || country) && (
+                  <p class="text-sm text-muted-foreground mt-1">
+                    {[short, country].filter(Boolean).join(" · ")}
+                  </p>
+                )}
+              </div>
+              <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-x-6 gap-y-10">
+                {items.map((member) => (
+                  <TeamMemberCard member={member} layout="grid" />
+                ))}
+              </div>
+            </section>
+          );
+        })
+      }
+    </div>
+  </div>
+
+  <!-- Team member modals (one per member, pre-rendered HTML) -->
+  {allMembers.map((member) => (
+    <TeamMemberModal member={member} />
+  ))}
+</BaseLayout>
+
+<script>
+  function initTeamControls() {
+    const btnAlpha = document.getElementById("sort-alphabetical");
+    const btnAffil = document.getElementById("sort-affiliation");
+    const btnList = document.getElementById("view-list-btn");
+    const btnGrid = document.getElementById("view-grid-btn");
+
+    const viewAlphaList = document.getElementById("view-alpha-list");
+    const viewAlphaGrid = document.getElementById("view-alpha-grid");
+    const viewAffilList = document.getElementById("view-affil-list");
+    const viewAffilGrid = document.getElementById("view-affil-grid");
+
+    if (
+      !btnAlpha || !btnAffil || !btnList || !btnGrid ||
+      !viewAlphaList || !viewAlphaGrid || !viewAffilList || !viewAffilGrid
+    ) return;
+
+    // Pill button active/inactive helpers
+    const activeClasses = ["bg-primary", "text-primary-foreground"];
+    const inactiveClasses = ["bg-background", "text-foreground", "hover:bg-muted"];
+
+    function setActive(btn: HTMLElement) {
+      btn.classList.add(...activeClasses);
+      btn.classList.remove(...inactiveClasses);
+      btn.setAttribute("aria-pressed", "true");
+    }
+
+    function setInactive(btn: HTMLElement) {
+      btn.classList.remove(...activeClasses);
+      btn.classList.add(...inactiveClasses);
+      btn.setAttribute("aria-pressed", "false");
+    }
+
+    // Current state (read from localStorage, with defaults)
+    let sortMode: "alpha" | "affil" = "alpha";
+    let viewMode: "list" | "grid" = "list";
+
+    try {
+      const savedSort = localStorage.getItem("team-sort");
+      const savedView = localStorage.getItem("team-view");
+      if (savedSort === "affil") sortMode = "affil";
+      if (savedView === "grid") viewMode = "grid";
+    } catch (_) {}
+
+    function applyState() {
+      // Hide all four containers
+      viewAlphaList!.classList.add("hidden");
+      viewAlphaGrid!.classList.add("hidden");
+      viewAffilList!.classList.add("hidden");
+      viewAffilGrid!.classList.add("hidden");
+
+      // Show the matching one
+      if (sortMode === "alpha" && viewMode === "list") {
+        viewAlphaList!.classList.remove("hidden");
+      } else if (sortMode === "alpha" && viewMode === "grid") {
+        viewAlphaGrid!.classList.remove("hidden");
+      } else if (sortMode === "affil" && viewMode === "list") {
+        viewAffilList!.classList.remove("hidden");
+      } else {
+        viewAffilGrid!.classList.remove("hidden");
+      }
+
+      // Sort buttons
+      if (sortMode === "alpha") {
+        setActive(btnAlpha!);
+        setInactive(btnAffil!);
+      } else {
+        setActive(btnAffil!);
+        setInactive(btnAlpha!);
+      }
+
+      // View buttons
+      if (viewMode === "list") {
+        setActive(btnList!);
+        setInactive(btnGrid!);
+      } else {
+        setActive(btnGrid!);
+        setInactive(btnList!);
+      }
+
+      // Persist
+      try {
+        localStorage.setItem("team-sort", sortMode);
+        localStorage.setItem("team-view", viewMode);
+      } catch (_) {}
+    }
+
+    // Event listeners
+    btnAlpha.addEventListener("click", () => {
+      sortMode = "alpha";
+      applyState();
+    });
+    btnAffil.addEventListener("click", () => {
+      sortMode = "affil";
+      applyState();
+    });
+    btnList.addEventListener("click", () => {
+      viewMode = "list";
+      applyState();
+    });
+    btnGrid.addEventListener("click", () => {
+      viewMode = "grid";
+      applyState();
+    });
+
+    // Apply saved state immediately
+    applyState();
+  }
+
+  initTeamControls();
+  document.addEventListener("astro:after-swap", initTeamControls);
+</script>
+
+<script>
+  // ---- Team member modal wiring ----------------------------------------
+  // Opens the correct <dialog> when a grid card button is clicked.
+  // Closes on: X button click, backdrop click (click on <dialog> itself), ESC (native).
+
+  function initTeamModals() {
+    // Open: clicking any grid card button
+    document.querySelectorAll<HTMLButtonElement>("button[data-modal-id]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const dialogId = btn.dataset.modalId;
+        if (!dialogId) return;
+        const dialog = document.getElementById(dialogId) as HTMLDialogElement | null;
+        if (dialog) {
+          dialog.showModal();
+        }
+      });
+    });
+
+    // Close: clicking the X button inside each dialog
+    document.querySelectorAll<HTMLButtonElement>("button[data-modal-close]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const dialogId = btn.dataset.modalClose;
+        if (!dialogId) return;
+        const dialog = document.getElementById(dialogId) as HTMLDialogElement | null;
+        if (dialog) {
+          dialog.close();
+        }
+      });
+    });
+
+    // Close: clicking the backdrop (the <dialog> element itself, not its inner content)
+    document.querySelectorAll<HTMLDialogElement>("dialog.team-modal").forEach((dialog) => {
+      dialog.addEventListener("click", (e) => {
+        if (e.target === dialog) {
+          dialog.close();
+        }
+      });
+    });
+  }
+
+  initTeamModals();
+  document.addEventListener("astro:after-swap", initTeamModals);
+</script>

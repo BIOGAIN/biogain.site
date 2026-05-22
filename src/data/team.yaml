@@ -1,0 +1,222 @@
+- id: alexandra-jiricka-purrer
+  name: "Alexandra Jiricka-Pürrer"
+  affiliation: "BOKU University"
+  affiliationShort: "BOKU"
+  country: "Austria"
+  links: []
+  workPackages:
+    - WP6 lead
+  order: 1
+  summary: ""
+
+- id: anna-duden
+  name: "Anna Duden"
+  affiliation: "Universiteit Utrecht"
+  affiliationShort: "UU"
+  country: "Netherlands"
+  links: []
+  workPackages: []
+  summary: ""
+
+- id: annette-rudolph
+  name: "Annette Rudolph"
+  affiliation: "Technische Universität Berlin"
+  affiliationShort: "TU Berlin"
+  country: "Germany"
+  links: []
+  workPackages:
+    - WP3 co-lead
+  summary: ""
+
+- id: bart-hoekstra
+  name: "Bart Hoekstra"
+  affiliation: "Universiteit Utrecht"
+  affiliationShort: "UU"
+  country: "Netherlands"
+  links:
+    - https://github.com/barthoekstra
+    - b.d.hoekstra@uu.nl
+    - https://barthoekstra.com
+    - https://linkedin.com/in/barthoekstra
+    - https://researchgate.net/profile/Bart-Hoekstra
+    - https://orcid.org/0000-0002-7085-3805
+    - https://scholar.google.com/citations?user=ccuIbKQAAAAJ
+    - https://bsky.app/profile/barthoekstra.bsky.social
+  workPackages: []
+  summary: "Bart Hoekstra is a Postdoctoral Researcher at Utrecht University, where he is part of the Energy and Resources group. His research focuses on the intersection of energy systems, biodiversity, and sustainability, with a particular interest in how energy planning can be aligned with biodiversity conservation goals."
+
+- id: boris-salak
+  name: "Boris Salak"
+  affiliation: "BOKU University"
+  affiliationShort: "BOKU"
+  country: "Austria"
+  links: []
+  workPackages: []
+  summary: ""
+
+- id: brady-mattsson
+  name: "Brady Mattsson"
+  affiliation: "BOKU University"
+  affiliationShort: "BOKU"
+  country: "Austria"
+  links: []
+  workPackages:
+    - WP4 lead
+  summary: ""
+
+- id: emilia-ravn-boess
+  name: "Emilia Ravn Boess"
+  affiliation: "Aalborg University"
+  affiliationShort: "AAU"
+  country: "Denmark"
+  links: []
+  workPackages: []
+  summary: "Emilia Ravn Boess is an Assistant Professor at Aalborg University and part of the Danish Centre for Environmental Assessment focusing on sustainability and green transition. Her research focuses on biodiversity integration, environmental assessment, and the role of the Sustainable Development Goals (SDGs) in supporting sustainable transitions and decision-making processes."
+
+- id: eva-scholl
+  name: "Eva Schöll"
+  affiliation: "BOKU University"
+  affiliationShort: "BOKU"
+  country: "Austria"
+  links: []
+  workPackages: []
+  summary: ""
+
+- id: fabian-knufinke
+  name: "Fabian Knufinke"
+  affiliation: "BOKU University"
+  affiliationShort: "BOKU"
+  country: "Austria"
+  links: []
+  workPackages: []
+  summary: ""
+
+- id: gesa-geissler
+  name: "Gesa Geißler"
+  affiliation: "Technische Universität Berlin"
+  affiliationShort: "TU Berlin"
+  country: "Germany"
+  links: []
+  workPackages:
+    - WP3 lead
+  summary: ""
+
+- id: grzegorz-chrobak
+  name: "Grzegorz Chrobak"
+  affiliation: "Wrocław University of Environmental and Life Sciences"
+  affiliationShort: "UPWr"
+  country: "Poland"
+  links: []
+  workPackages:
+    - WP5 lead
+  summary: ""
+
+- id: jasmin-wimmer
+  name: "Jasmin Wimmer"
+  affiliation: "BOKU University"
+  affiliationShort: "BOKU"
+  country: "Austria"
+  links: []
+  workPackages: []
+  summary: ""
+
+- id: jendrik-windt
+  name: "Jendrik Windt"
+  affiliation: "BOKU University"
+  affiliationShort: "BOKU"
+  country: "Austria"
+  links: []
+  workPackages: []
+  summary: ""
+
+- id: katarzyna-tokarczyk-dorociak
+  name: "Katarzyna Tokarczyk-Dorociak"
+  affiliation: "Wrocław University of Environmental and Life Sciences"
+  affiliationShort: "UPWr"
+  country: "Poland"
+  links: []
+  workPackages: []
+  summary: ""
+
+- id: laura-ferrari
+  name: "Laura Ferrari"
+  affiliation: "BOKU University"
+  affiliationShort: "BOKU"
+  country: "Austria"
+  links: []
+  workPackages: []
+  summary: ""
+
+- id: lone-kornov
+  name: "Lone Kørnøv"
+  affiliation: "Aalborg University"
+  affiliationShort: "AAU"
+  country: "Denmark"
+  links: []
+  workPackages:
+    - WP1 lead
+  summary: "Lone Kørnøv is a Professor at Aalborg University, where she leads the Danish Center for Environmental Assessment. Her research focuses on sustainability, environmental assessment, and green transition processes and how sustainability can be integrated into decision-making. She is particularly concerned with creating strong links between research and practice."
+
+- id: luis-ramirez-camargo
+  name: "Luis Ramirez Camargo"
+  affiliation: "Universiteit Utrecht"
+  affiliationShort: "UU"
+  country: "Netherlands"
+  links: []
+  workPackages:
+    - WP2 lead
+  summary: ""
+
+- id: marc-ibanez
+  name: "Marc Ibañez"
+  affiliation: "BOKU University"
+  affiliationShort: "BOKU"
+  country: "Austria"
+  links: []
+  workPackages: []
+  summary: ""
+
+- id: pedro-henrique-lima-alencar
+  name: "Pedro Henrique Lima Alencar"
+  affiliation: "Technische Universität Berlin"
+  affiliationShort: "TU Berlin"
+  country: "Germany"
+  links: []
+  workPackages: []
+  summary: ""
+
+- id: pita-verweij
+  name: "Pita Verweij"
+  affiliation: "Universiteit Utrecht"
+  affiliationShort: "UU"
+  country: "Netherlands"
+  links: []
+  workPackages: []
+  summary: ""
+
+- id: raffael-koscher
+  name: "Raffael Koscher"
+  affiliation: "BOKU University"
+  affiliationShort: "BOKU"
+  country: "Austria"
+  links: []
+  workPackages: []
+  summary: ""
+
+- id: saeed-najd-ataei
+  name: "Saeed Najd Ataei"
+  affiliation: "Technische Universität Berlin"
+  affiliationShort: "TU Berlin"
+  country: "Germany"
+  links: []
+  workPackages: []
+  summary: ""
+
+- id: sanne-vammen-larsen
+  name: "Sanne Vammen Larsen"
+  affiliation: "Aalborg University"
+  affiliationShort: "AAU"
+  country: "Denmark"
+  links: []
+  workPackages: []
+  summary: "Sanne Vammen Larsen is an Associate Professor at Aalborg University and part of the Danish Centre for Environmental Assessment. Her research focuses on environmental assessment, spatial planning and sustainable resource management. She emphasises engagement processes and decision-making under uncertainty."

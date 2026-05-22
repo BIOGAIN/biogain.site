@@ -30,3 +30,28 @@ Language: US English
 ---
 
 <!-- Add your project customizations below this line -->
+
+## Content collections
+
+### Linking news items to team members
+
+The `news` collection has an optional `team` field that takes an array of team member slugs (the folder name under `src/content/team/`). When populated, the news detail page renders a "Contributors" block with circle avatars linking back to `/team#<slug>`.
+
+```yaml
+---
+title: BIOGAIN kickoff in Vienna
+pubDate: 2026-05-15
+team:
+  - bart-hoekstra
+  - lone-kornov
+  - alexandra-jiricka-purrer
+---
+```
+
+- Slugs must match an existing folder under `src/content/team/` exactly — Astro's `reference('team')` enforces this at build time, so typos fail the build.
+- Omit the field (or leave it as `[]`) and no Contributors block renders.
+- Order in the array is preserved in the rendered output.
+
+### Team collection
+
+Each team member is a folder under `src/content/team/<slug>/` containing `index.md` and optionally a photo. Frontmatter fields: `name`, `affiliation`, `affiliationShort`, `country`, `photo` (colocated image), `links` (array of `{ type, url }` — see schema in `src/content.config.ts` for supported `type` values), `workPackages`, `order`. The markdown body is the member's summary and supports inline markdown links.
