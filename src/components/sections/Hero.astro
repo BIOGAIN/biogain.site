@@ -37,8 +37,9 @@ const { title, subtitle, primaryCta, secondaryCta, badge, backgroundImage, title
         loading="eager"
         class="absolute inset-0 w-full h-full object-cover object-top z-0 pointer-events-none"
       />
-      <!-- Dark gradient overlay for text contrast -->
+      {/* Overlay temporarily disabled — uncomment to restore
       <div class="absolute inset-0 bg-gradient-to-b from-white/30 via-white/20 to-white/40 z-[1] pointer-events-none" aria-hidden="true" />
+      */}
     </>
   )}
   <div class="container max-w-5xl mx-auto flex flex-col items-center gap-6 text-center relative z-10" data-animate="fade">
@@ -65,7 +66,7 @@ const { title, subtitle, primaryCta, secondaryCta, badge, backgroundImage, title
         title
       )}
     </h1>
-    <p class="max-w-[800px] text-xl text-brand-navy md:text-2xl" set:html={subtitle} />
+    <p class="max-w-[800px] text-xl text-brand-navy md:text-2xl [text-shadow:0_0_10px_rgb(255_255_255_/_0.85),0_0_22px_rgb(255_255_255_/_0.55)]" set:html={subtitle} />
     <div class="flex flex-col sm:flex-row gap-4 mt-4">
       {primaryCta && (
         <a
