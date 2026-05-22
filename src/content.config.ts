@@ -8,7 +8,7 @@ const news = defineCollection({
     title: z.string(),
     description: z.string(),
     pubDate: z.coerce.date(),
-    author: z.string().default('AstroDeck Team'),
+    author: z.string().default('BIOGAIN Team'),
     image: z.string().optional(),
     tags: z.array(z.string()).default([]),
   }),

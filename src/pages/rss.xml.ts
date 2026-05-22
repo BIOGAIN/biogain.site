@@ -9,9 +9,9 @@ export async function GET(context: import('astro').APIContext) {
   );
 
   return rss({
-    title: 'AstroDeck News',
-    description: 'Articles, tutorials, and updates from the AstroDeck project',
-    site: context.site ?? 'https://astrodeck.dev',
+    title: 'BIOGAIN News',
+    description: 'News about the BIOGAIN project',
+    site: context.site ?? 'https://biogain.site',
     items: sortedPosts.map((post) => ({
       title: post.data.title,
       pubDate: post.data.pubDate,
