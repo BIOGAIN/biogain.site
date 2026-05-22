@@ -83,7 +83,13 @@ const initials = getInitials(name);
 const placeholderBg = avatarColor(name);
 
 // ---- Render markdown summary -----------------------------------------------
-const summaryHtml = summary ? marked.parse(summary) : "";
+// All anchors rendered from the markdown summary open in a new tab.
+const summaryHtml = summary
+  ? marked
+      .parse(summary)
+      .toString()
+      .replace(/<a /g, '<a target="_blank" rel="noopener noreferrer" ')
+  : "";
 
 // ---- Photo size (uniform across layouts) -----------------------------------
 const photoSize = 175;
@@ -135,7 +141,9 @@ const photoSize = 175;
             .filter((w) => w.role)
             .map(({ wp, role }) => (
               <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-primary/15 text-primary">
-                {`${wp} ${role!.charAt(0).toUpperCase()}${role!.slice(1)}`}
+                {role === "standalone"
+                ? wp
+                : `${wp} ${role!.charAt(0).toUpperCase()}${role!.slice(1)}`}
               </span>
             ))}
         </div>
@@ -180,7 +188,9 @@ const photoSize = 175;
           .filter((w) => w.role)
           .map(({ wp, role }) => (
             <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-primary/15 text-primary">
-              {`${wp} ${role!.charAt(0).toUpperCase()}${role!.slice(1)}`}
+              {role === "standalone"
+                ? wp
+                : `${wp} ${role!.charAt(0).toUpperCase()}${role!.slice(1)}`}
             </span>
           ))}
       </div>

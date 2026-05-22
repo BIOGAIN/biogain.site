@@ -4,6 +4,7 @@ import { getCollection } from "astro:content";
 import type { CollectionEntry } from "astro:content";
 import TeamMemberCard from "@/components/TeamMemberCard.astro";
 import TeamMemberModal from "@/components/TeamMemberModal.astro";
+import LogoCloud from "@/components/sections/LogoCloud.astro";
 
 // Fetch all team members
 const allMembers = await getCollection("team");
@@ -14,11 +15,58 @@ function getSurname(name: string): string {
   return parts[parts.length - 1].toLowerCase();
 }
 
+// ---- Role-aware sort key ----------------------------------------------------
+// Tier 0: project coordinator(s) — Alexandra at the top.
+// Tier 1: WP lead / co-lead — sorted by WP number, with lead before co-lead.
+// Tier 2: everyone else — alphabetical by surname (fallback applies in all tiers).
+function getRoleSortKey(
+  member: CollectionEntry<"team">
+): [number, number, number, string] {
+  const wps = member.data.workPackages;
+  const surname = getSurname(member.data.name);
+
+  if (
+    wps.some(
+      (w) => w.role === "standalone" && /coordinator/i.test(w.wp)
+    )
+  ) {
+    return [0, 0, 0, surname];
+  }
+
+  const leadEntry = wps.find(
+    (w) => w.role === "lead" || w.role === "co-lead"
+  );
+  if (leadEntry) {
+    const wpNum = parseInt(leadEntry.wp.replace(/\D/g, ""), 10) || 999;
+    const roleOrder = leadEntry.role === "lead" ? 0 : 1;
+    return [1, wpNum, roleOrder, surname];
+  }
+
+  return [2, 0, 0, surname];
+}
+
+function compareByRoleThenSurname(
+  a: CollectionEntry<"team">,
+  b: CollectionEntry<"team">
+): number {
+  const ka = getRoleSortKey(a);
+  const kb = getRoleSortKey(b);
+  for (let i = 0; i < ka.length; i++) {
+    if (ka[i] < kb[i]) return -1;
+    if (ka[i] > kb[i]) return 1;
+  }
+  return 0;
+}
+
 const sortedAlphabetically = [...allMembers].sort((a, b) =>
   getSurname(a.data.name).localeCompare(getSurname(b.data.name), "en")
 );
 
-// Group by affiliation for the affiliation sort
+const sortedByRole = [...allMembers].sort(compareByRoleThenSurname);
+
+// Group by affiliation. Members within each group inherit the role-first order
+// from sortedByRole, so each affiliation lists its leaders (coordinator, then
+// WP leads/co-leads by number) before the alphabetical remainder.
 const affiliationOrder = [
   "BOKU University",
   "Technische Universität Berlin",
@@ -32,7 +80,7 @@ function affiliationSortIndex(affiliation: string): number {
   return idx === -1 ? affiliationOrder.length : idx;
 }
 
-const groupedByAffiliation = sortedAlphabetically.reduce<
+const groupedByAffiliation = sortedByRole.reduce<
   Map<string, CollectionEntry<"team">[]>
 >((acc, member) => {
   const aff = member.data.affiliation;
@@ -44,6 +92,22 @@ const groupedByAffiliation = sortedAlphabetically.reduce<
 const sortedGroups = [...groupedByAffiliation.entries()].sort(
   ([a], [b]) => affiliationSortIndex(a) - affiliationSortIndex(b)
 );
+
+// Two sections for the role view: leaders (tier 0 + 1) vs. everyone else (tier 2)
+function isLeader(member: CollectionEntry<"team">): boolean {
+  return getRoleSortKey(member)[0] < 2;
+}
+
+const roleSections: { title: string; members: CollectionEntry<"team">[] }[] = [
+  {
+    title: "Work package leaders",
+    members: sortedByRole.filter(isLeader),
+  },
+  {
+    title: "Team members",
+    members: sortedByRole.filter((m) => !isLeader(m)),
+  },
+];
 ---
 
 <BaseLayout
@@ -65,15 +129,20 @@ const sortedGroups = [...groupedByAffiliation.entries()].sort(
     })();
   </script>
 
-  <div class="container max-w-5xl mx-auto py-20 px-4 sm:px-6">
+  <div class="py-20 px-4 sm:px-6">
+    <div class="container max-w-5xl mx-auto">
     <!-- Page header -->
-    <div class="mb-16">
+    <div class="mb-12">
       <h1 class="text-7xl font-bold tracking-tight mb-8">Team</h1>
       <p class="text-xl text-muted-foreground max-w-2xl">
         The BIOGAIN consortium brings together researchers and practitioners
         from five European universities, working together to advance
         biodiversity-positive energy planning.
       </p>
+    </div>
+
+    <div class="mb-16">
+      <LogoCloud linkMode="team-affiliation" bordered={false} align="left" />
     </div>
 
     <!-- Controls row: sort (left) + view toggle (right) -->
@@ -98,6 +167,13 @@ const sortedGroups = [...groupedByAffiliation.entries()].sort(
           aria-pressed="false"
         >
           By affiliation
+        </button>
+        <button
+          id="sort-role"
+          class="px-4 py-1.5 rounded-full text-sm font-medium transition-colors border border-border"
+          aria-pressed="false"
+        >
+          By role
         </button>
       </div>
 
@@ -196,8 +272,11 @@ const sortedGroups = [...groupedByAffiliation.entries()].sort(
         sortedGroups.map(([affiliation, items]) => {
           const short = items[0].data.affiliationShort;
           const country = items[0].data.country;
+          const anchorId = short
+            ? `affiliation-${short.toLowerCase().replace(/\s+/g, "-")}`
+            : undefined;
           return (
-            <section class="mb-12 last:mb-0">
+            <section id={anchorId} class="mb-12 last:mb-0 scroll-mt-24">
               <div class="mb-6 pb-3 border-b border-border">
                 <h2 class="text-2xl font-semibold">{affiliation}</h2>
                 {(short || country) && (
@@ -217,14 +296,57 @@ const sortedGroups = [...groupedByAffiliation.entries()].sort(
       }
     </div>
 
+    <!-- Role · List -->
+    <div id="view-role-list" class="hidden space-y-0">
+      {
+        roleSections.map(({ title, members }) =>
+          members.length === 0 ? null : (
+            <section class="mb-12 last:mb-0">
+              <div class="mb-6 pb-3 border-b border-border">
+                <h2 class="text-2xl font-semibold">{title}</h2>
+              </div>
+              <div class="space-y-0">
+                {members.map((member) => (
+                  <TeamMemberCard member={member} layout="list" />
+                ))}
+              </div>
+            </section>
+          )
+        )
+      }
+    </div>
+
+    <!-- Role · Grid -->
+    <div id="view-role-grid" class="hidden space-y-16">
+      {
+        roleSections.map(({ title, members }) =>
+          members.length === 0 ? null : (
+            <section>
+              <div class="mb-8 pb-3 border-b border-border">
+                <h2 class="text-2xl font-semibold">{title}</h2>
+              </div>
+              <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-x-6 gap-y-10">
+                {members.map((member) => (
+                  <TeamMemberCard member={member} layout="grid" />
+                ))}
+              </div>
+            </section>
+          )
+        )
+      }
+    </div>
+
     <!-- Affiliation · Grid -->
     <div id="view-affil-grid" class="hidden space-y-16">
       {
         sortedGroups.map(([affiliation, items]) => {
           const short = items[0].data.affiliationShort;
           const country = items[0].data.country;
+          const anchorId = short
+            ? `affiliation-${short.toLowerCase().replace(/\s+/g, "-")}`
+            : undefined;
           return (
-            <section>
+            <section id={anchorId} class="scroll-mt-24">
               <div class="mb-8 pb-3 border-b border-border">
                 <h2 class="text-2xl font-semibold">{affiliation}</h2>
                 {(short || country) && (
@@ -243,6 +365,7 @@ const sortedGroups = [...groupedByAffiliation.entries()].sort(
         })
       }
     </div>
+    </div>
   </div>
 
   <!-- Team member modals (one per member, pre-rendered HTML) -->
@@ -253,22 +376,38 @@ const sortedGroups = [...groupedByAffiliation.entries()].sort(
 
 <script>
   function initTeamControls() {
-    const btnAlpha = document.getElementById("sort-alphabetical");
-    const btnAffil = document.getElementById("sort-affiliation");
-    const btnList = document.getElementById("view-list-btn");
-    const btnGrid = document.getElementById("view-grid-btn");
+    type SortMode = "alpha" | "affil" | "role";
+    type ViewMode = "list" | "grid";
 
-    const viewAlphaList = document.getElementById("view-alpha-list");
-    const viewAlphaGrid = document.getElementById("view-alpha-grid");
-    const viewAffilList = document.getElementById("view-affil-list");
-    const viewAffilGrid = document.getElementById("view-affil-grid");
+    const sortButtons: Record<SortMode, HTMLElement | null> = {
+      alpha: document.getElementById("sort-alphabetical"),
+      affil: document.getElementById("sort-affiliation"),
+      role: document.getElementById("sort-role"),
+    };
+    const viewButtons: Record<ViewMode, HTMLElement | null> = {
+      list: document.getElementById("view-list-btn"),
+      grid: document.getElementById("view-grid-btn"),
+    };
 
+    // Containers keyed as `${sort}-${view}` → element
+    const containers: Record<string, HTMLElement | null> = {
+      "alpha-list": document.getElementById("view-alpha-list"),
+      "alpha-grid": document.getElementById("view-alpha-grid"),
+      "affil-list": document.getElementById("view-affil-list"),
+      "affil-grid": document.getElementById("view-affil-grid"),
+      "role-list": document.getElementById("view-role-list"),
+      "role-grid": document.getElementById("view-role-grid"),
+    };
+
+    // Bail if any node is missing
     if (
-      !btnAlpha || !btnAffil || !btnList || !btnGrid ||
-      !viewAlphaList || !viewAlphaGrid || !viewAffilList || !viewAffilGrid
-    ) return;
+      Object.values(sortButtons).some((b) => !b) ||
+      Object.values(viewButtons).some((b) => !b) ||
+      Object.values(containers).some((c) => !c)
+    ) {
+      return;
+    }
 
-    // Pill button active/inactive helpers
     const activeClasses = ["bg-primary", "text-primary-foreground"];
     const inactiveClasses = ["bg-background", "text-foreground", "hover:bg-muted"];
 
@@ -284,80 +423,148 @@ const sortedGroups = [...groupedByAffiliation.entries()].sort(
       btn.setAttribute("aria-pressed", "false");
     }
 
-    // Current state (read from localStorage, with defaults)
-    let sortMode: "alpha" | "affil" = "alpha";
-    let viewMode: "list" | "grid" = "list";
+    let sortMode: SortMode = "alpha";
+    let viewMode: ViewMode = "list";
 
     try {
       const savedSort = localStorage.getItem("team-sort");
       const savedView = localStorage.getItem("team-view");
-      if (savedSort === "affil") sortMode = "affil";
-      if (savedView === "grid") viewMode = "grid";
+      if (savedSort === "affil" || savedSort === "role") sortMode = savedSort;
+      if (savedView === "grid") viewMode = savedView;
     } catch (_) {}
 
-    function applyState() {
-      // Hide all four containers
-      viewAlphaList!.classList.add("hidden");
-      viewAlphaGrid!.classList.add("hidden");
-      viewAffilList!.classList.add("hidden");
-      viewAffilGrid!.classList.add("hidden");
+    // If we arrived with #affiliation-<short>, force the affiliation sort
+    // so the target section is actually rendered before scrolling.
+    function syncSortToHash() {
+      const hash = window.location.hash.slice(1);
+      if (hash.startsWith("affiliation-") && sortMode !== "affil") {
+        sortMode = "affil";
+      }
+    }
+    syncSortToHash();
 
-      // Show the matching one
-      if (sortMode === "alpha" && viewMode === "list") {
-        viewAlphaList!.classList.remove("hidden");
-      } else if (sortMode === "alpha" && viewMode === "grid") {
-        viewAlphaGrid!.classList.remove("hidden");
-      } else if (sortMode === "affil" && viewMode === "list") {
-        viewAffilList!.classList.remove("hidden");
-      } else {
-        viewAffilGrid!.classList.remove("hidden");
+    function applyState() {
+      // Show only the matching container
+      for (const [key, el] of Object.entries(containers)) {
+        if (!el) continue;
+        if (key === `${sortMode}-${viewMode}`) {
+          el.classList.remove("hidden");
+        } else {
+          el.classList.add("hidden");
+        }
       }
 
       // Sort buttons
-      if (sortMode === "alpha") {
-        setActive(btnAlpha!);
-        setInactive(btnAffil!);
-      } else {
-        setActive(btnAffil!);
-        setInactive(btnAlpha!);
+      for (const [mode, btn] of Object.entries(sortButtons)) {
+        if (!btn) continue;
+        if (mode === sortMode) setActive(btn);
+        else setInactive(btn);
       }
 
       // View buttons
-      if (viewMode === "list") {
-        setActive(btnList!);
-        setInactive(btnGrid!);
-      } else {
-        setActive(btnGrid!);
-        setInactive(btnList!);
+      for (const [mode, btn] of Object.entries(viewButtons)) {
+        if (!btn) continue;
+        if (mode === viewMode) setActive(btn);
+        else setInactive(btn);
       }
 
-      // Persist
       try {
         localStorage.setItem("team-sort", sortMode);
         localStorage.setItem("team-view", viewMode);
       } catch (_) {}
     }
 
-    // Event listeners
-    btnAlpha.addEventListener("click", () => {
-      sortMode = "alpha";
+    // Each member's id (and each affiliation-section id) is duplicated across
+    // all sort/view containers, so the browser's default hash-anchor scroll
+    // can land on a hidden element. Scope the lookup to the container we just
+    // showed — this also avoids reading offsetParent before the browser has
+    // had a chance to re-run layout after applyState().
+    function scrollToHash() {
+      const hash = window.location.hash;
+      if (!hash || hash.length < 2) return;
+      const id = decodeURIComponent(hash.slice(1));
+      const visible = containers[`${sortMode}-${viewMode}`];
+      const el = visible?.querySelector<HTMLElement>(`[id="${CSS.escape(id)}"]`);
+      if (el) {
+        el.scrollIntoView({ block: "center" });
+      }
+    }
+
+    // Wire up clicks
+    for (const [mode, btn] of Object.entries(sortButtons) as [SortMode, HTMLElement | null][]) {
+      btn?.addEventListener("click", () => {
+        sortMode = mode;
+        applyState();
+      });
+    }
+    for (const [mode, btn] of Object.entries(viewButtons) as [ViewMode, HTMLElement | null][]) {
+      btn?.addEventListener("click", () => {
+        viewMode = mode;
+        applyState();
+      });
+    }
+
+    applyState();
+    scrollToHash();
+    window.addEventListener("hashchange", () => {
+      syncSortToHash();
       applyState();
-    });
-    btnAffil.addEventListener("click", () => {
-      sortMode = "affil";
-      applyState();
-    });
-    btnList.addEventListener("click", () => {
-      viewMode = "list";
-      applyState();
-    });
-    btnGrid.addEventListener("click", () => {
-      viewMode = "grid";
-      applyState();
+      scrollToHash();
     });
 
-    // Apply saved state immediately
-    applyState();
+    // Same-page links to /team#... need to be intercepted before Astro's
+    // ClientRouter (registered by BaseLayout) handles the click. We use the
+    // capture phase and stopImmediatePropagation so the click never reaches
+    // ClientRouter. Two cases this fixes:
+    //  1. The hash didn't change (e.g. user opens /team#affiliation-aau,
+    //     switches to alpha, then clicks the same logo) — no hashchange would
+    //     fire, so our hashchange listener would never run.
+    //  2. ClientRouter intercepts and would otherwise swallow the navigation.
+    document.addEventListener(
+      "click",
+      (e) => {
+        if (
+          e.button !== 0 ||
+          e.metaKey ||
+          e.ctrlKey ||
+          e.shiftKey ||
+          e.altKey
+        ) return;
+
+        const target = e.target as HTMLElement | null;
+        const link = target?.closest<HTMLAnchorElement>("a");
+        if (!link) return;
+
+        const onTeamPage =
+          location.pathname === "/team" || location.pathname === "/team/";
+        if (!onTeamPage) return;
+
+        let url: URL;
+        try {
+          url = new URL(link.href, location.origin);
+        } catch {
+          return;
+        }
+
+        // Only intercept same-document /team links with a hash
+        if (
+          url.origin !== location.origin ||
+          (url.pathname !== "/team" && url.pathname !== "/team/") ||
+          !url.hash
+        ) return;
+
+        e.preventDefault();
+        e.stopImmediatePropagation();
+
+        if (location.hash !== url.hash) {
+          history.pushState(null, "", url.hash);
+        }
+        syncSortToHash();
+        applyState();
+        scrollToHash();
+      },
+      true // capture phase — runs before ClientRouter's listener
+    );
   }
 
   initTeamControls();

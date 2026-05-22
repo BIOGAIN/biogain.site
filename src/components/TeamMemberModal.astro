@@ -18,8 +18,7 @@ interface Props {
 }
 
 const { member } = Astro.props;
-const { name, affiliation, affiliationShort, country, links, workPackages, summary } =
-  member.data;
+const { name, affiliation, country, links, workPackages, summary } = member.data;
 
 const slug = member.id;
 
@@ -71,10 +70,16 @@ const initials = getInitials(name);
 const placeholderBg = avatarColor(name);
 
 // ---- Render markdown summary -----------------------------------------------
-const summaryHtml = summary ? marked.parse(summary) : "";
+// All anchors rendered from the markdown summary open in a new tab.
+const summaryHtml = summary
+  ? marked
+      .parse(summary)
+      .toString()
+      .replace(/<a /g, '<a target="_blank" rel="noopener noreferrer" ')
+  : "";
 
 // ---- Build subtitle line (affiliation · country) ----------------------------
-const subtitle = [affiliationShort ?? affiliation, country].filter(Boolean).join(" · ");
+const subtitle = [affiliation, country].filter(Boolean).join(" · ");
 
 const dialogId = `modal-${slug}`;
 const titleId = `modal-title-${slug}`;
@@ -152,7 +157,9 @@ const titleId = `modal-title-${slug}`;
             .filter((w) => w.role)
             .map(({ wp, role }) => (
               <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-primary/15 text-primary">
-                {`${wp} ${role!.charAt(0).toUpperCase()}${role!.slice(1)}`}
+                {role === "standalone"
+                  ? wp
+                  : `${wp} ${role!.charAt(0).toUpperCase()}${role!.slice(1)}`}
               </span>
             ))}
         </div>

@@ -5,13 +5,14 @@
   country: "Austria"
   links: []
   workPackages:
+    - Project coordinator
     - WP6 lead
   order: 1
   summary: ""
 
 - id: anna-duden
   name: "Anna Duden"
-  affiliation: "Universiteit Utrecht"
+  affiliation: "Utrecht University"
   affiliationShort: "UU"
   country: "Netherlands"
   links: []
@@ -30,7 +31,7 @@
 
 - id: bart-hoekstra
   name: "Bart Hoekstra"
-  affiliation: "Universiteit Utrecht"
+  affiliation: "Utrecht University"
   affiliationShort: "UU"
   country: "Netherlands"
   links:
@@ -43,7 +44,7 @@
     - https://scholar.google.com/citations?user=ccuIbKQAAAAJ
     - https://bsky.app/profile/barthoekstra.bsky.social
   workPackages: []
-  summary: "Bart Hoekstra is a Postdoctoral Researcher at Utrecht University, where he is part of the Energy and Resources group. His research focuses on the intersection of energy systems, biodiversity, and sustainability, with a particular interest in how energy planning can be aligned with biodiversity conservation goals."
+  summary: "Bart is a Postdoctoral Researcher at [Utrecht University](https://www.uu.nl/medewerkers/BDHoekstra), and part of the Copernicus Institute of Sustainable Development. His research focuses on the intersection of energy, biodiversity, and sustainability, with a particular interest in how energy planning can be aligned with biodiversity conservation goals."
 
 - id: boris-salak
   name: "Boris Salak"
@@ -71,7 +72,7 @@
   country: "Denmark"
   links: []
   workPackages: []
-  summary: "Emilia Ravn Boess is an Assistant Professor at Aalborg University and part of the Danish Centre for Environmental Assessment focusing on sustainability and green transition. Her research focuses on biodiversity integration, environmental assessment, and the role of the Sustainable Development Goals (SDGs) in supporting sustainable transitions and decision-making processes."
+  summary: "Emilia is an Assistant Professor at [Aalborg University](https://vbn.aau.dk/en/persons/emiliarb/) and part of the Danish Centre for Environmental Assessment focusing on sustainability and green transition. Her research focuses on biodiversity integration, environmental assessment, and the role of the Sustainable Development Goals (SDGs) in supporting sustainable transitions and decision-making processes."
 
 - id: eva-scholl
   name: "Eva Schöll"
@@ -155,11 +156,11 @@
   links: []
   workPackages:
     - WP1 lead
-  summary: "Lone Kørnøv is a Professor at Aalborg University, where she leads the Danish Center for Environmental Assessment. Her research focuses on sustainability, environmental assessment, and green transition processes and how sustainability can be integrated into decision-making. She is particularly concerned with creating strong links between research and practice."
+  summary: "Lone is a Professor at [Aalborg University](https://vbn.aau.dk/en/persons/lonek/), where she leads the Danish Center for Environmental Assessment. Her research focuses on sustainability, environmental assessment, and green transition processes and how sustainability can be integrated into decision-making. She is particularly concerned with creating strong links between research and practice."
 
 - id: luis-ramirez-camargo
   name: "Luis Ramirez Camargo"
-  affiliation: "Universiteit Utrecht"
+  affiliation: "Utrecht University"
   affiliationShort: "UU"
   country: "Netherlands"
   links: []
@@ -187,7 +188,7 @@
 
 - id: pita-verweij
   name: "Pita Verweij"
-  affiliation: "Universiteit Utrecht"
+  affiliation: "Utrecht University"
   affiliationShort: "UU"
   country: "Netherlands"
   links: []
@@ -219,4 +220,4 @@
   country: "Denmark"
   links: []
   workPackages: []
-  summary: "Sanne Vammen Larsen is an Associate Professor at Aalborg University and part of the Danish Centre for Environmental Assessment. Her research focuses on environmental assessment, spatial planning and sustainable resource management. She emphasises engagement processes and decision-making under uncertainty."
+  summary: "Sanne is an Associate Professor at [Aalborg University](https://vbn.aau.dk/en/persons/sannevl/) and part of the Danish Centre for Environmental Assessment. Her research focuses on environmental assessment, spatial planning and sustainable resource management. She emphasises engagement processes and decision-making under uncertainty."

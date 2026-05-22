@@ -15,17 +15,23 @@ const linkTypes = [
 
 type LinkType = (typeof linkTypes)[number];
 
-const workPackageRoles = ['lead', 'co-lead'] as const;
-type WorkPackageRole = (typeof workPackageRoles)[number];
-
-/** Parse `"WP6 lead"`, `"WP3 co-lead"`, or bare `"WP6"` into a structured entry. */
-function parseWorkPackageString(raw: string): { wp: string; role?: WorkPackageRole } {
+/**
+ * Parse a workPackages entry string. Three shapes are recognised:
+ *   "WP6 lead"  / "WP3 co-lead"  → { wp: "WP6", role: "lead" }            (composite role)
+ *   "WP2"                        → { wp: "WP2" }                          (plain membership)
+ *   "Project coordinator", …     → { wp: "Project coordinator", role: "standalone" }
+ *                                  (standalone role — display label verbatim)
+ */
+function parseWorkPackageString(raw: string): { wp: string; role?: string } {
   const trimmed = raw.trim();
-  const match = trimmed.match(/^(\S+)\s+(co-lead|lead)$/i);
-  if (match) {
-    return { wp: match[1], role: match[2].toLowerCase() as WorkPackageRole };
+  const leadMatch = trimmed.match(/^(WP\d+)\s+(co-lead|lead)$/i);
+  if (leadMatch) {
+    return { wp: leadMatch[1], role: leadMatch[2].toLowerCase() };
   }
-  return { wp: trimmed };
+  if (/^WP\d+$/i.test(trimmed)) {
+    return { wp: trimmed };
+  }
+  return { wp: trimmed, role: 'standalone' };
 }
 
 /** Infer link type and normalise URL from a bare string like `github.com/foo`. */
@@ -87,7 +93,7 @@ const team = defineCollection({
           z.string().transform(parseWorkPackageString),
           z.object({
             wp: z.string(),
-            role: z.enum(workPackageRoles).optional(),
+            role: z.string().optional(),
           }),
         ])
       )
