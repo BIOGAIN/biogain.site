@@ -35,7 +35,8 @@ const { title, subtitle, primaryCta, secondaryCta, badge, backgroundImage, title
         widths={[768, 1280, 1920]}
         sizes="100vw"
         loading="eager"
-        class="absolute inset-0 w-full h-full object-cover object-top z-0 pointer-events-none"
+        data-hero-parallax
+        class="absolute inset-x-0 -top-[20%] w-full h-[140%] object-cover object-top z-0 pointer-events-none will-change-transform"
       />
       {/* Overlay temporarily disabled — uncomment to restore
       <div class="absolute inset-0 bg-gradient-to-b from-white/30 via-white/20 to-white/40 z-[1] pointer-events-none" aria-hidden="true" />
@@ -60,13 +61,13 @@ const { title, subtitle, primaryCta, secondaryCta, badge, backgroundImage, title
         <BiogainLogo
           role="img"
           aria-label={title}
-          class="h-24 md:h-32 lg:h-40 w-auto"
+          class="h-24 md:h-32 lg:h-40 w-auto halo-pulse"
         />
       ) : (
         title
       )}
     </h1>
-    <p class="max-w-[800px] text-xl text-brand-navy md:text-2xl [text-shadow:0_0_10px_rgb(255_255_255_/_0.85),0_0_22px_rgb(255_255_255_/_0.55)]" set:html={subtitle} />
+    <p class="max-w-[640px] text-2xl md:text-3xl font-semibold pb-[0.1em] [background-image:linear-gradient(to_right,var(--color-brand-navy),var(--color-brand-teal),var(--color-brand-green))] bg-clip-text text-transparent halo-pulse" set:html={subtitle} />
     <div class="flex flex-col sm:flex-row gap-4 mt-4">
       {primaryCta && (
         <a
@@ -93,3 +94,46 @@ const { title, subtitle, primaryCta, secondaryCta, badge, backgroundImage, title
     </div>
   </div>
 </section>
+
+<style>
+  .halo-pulse {
+    filter: drop-shadow(0 0 1px white) drop-shadow(0 0 1px white) drop-shadow(0 0 1px white);
+    animation: halo-pulse 4.5s ease-in-out infinite;
+  }
+  @keyframes halo-pulse {
+    0%, 100% {
+      filter: drop-shadow(0 0 1px white) drop-shadow(0 0 1px white) drop-shadow(0 0 1px white);
+    }
+    50% {
+      filter: drop-shadow(0 0 2px white) drop-shadow(0 0 4px white) drop-shadow(0 0 8px rgb(255 255 255 / 0.6));
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .halo-pulse {
+      animation: none;
+    }
+  }
+</style>
+
+<script>
+  const img = document.querySelector<HTMLElement>("[data-hero-parallax]");
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (img && !reduce) {
+    let ticking = false;
+    const update = () => {
+      img.style.transform = `translate3d(0, ${window.scrollY * 0.15}px, 0)`;
+      ticking = false;
+    };
+    update();
+    window.addEventListener(
+      "scroll",
+      () => {
+        if (!ticking) {
+          requestAnimationFrame(update);
+          ticking = true;
+        }
+      },
+      { passive: true },
+    );
+  }
+</script>
