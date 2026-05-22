@@ -9,18 +9,24 @@
 
 <script is:inline>
   (function() {
+    // LIGHT-MODE LOCK: always force light mode site-wide.
+    // To re-enable dark mode, restore the original applyTheme body below and delete this one-liner.
     function applyTheme() {
-      const theme = localStorage.getItem("theme");
-      if (theme === "dark") {
-        document.documentElement.classList.add("dark");
-      } else if (theme === "light") {
-        document.documentElement.classList.remove("dark");
-      } else if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-        document.documentElement.classList.add("dark");
-      } else {
-        document.documentElement.classList.remove("dark");
-      }
+      document.documentElement.classList.remove("dark");
     }
+    // Original applyTheme (kept for easy revert):
+    // function applyTheme() {
+    //   const theme = localStorage.getItem("theme");
+    //   if (theme === "dark") {
+    //     document.documentElement.classList.add("dark");
+    //   } else if (theme === "light") {
+    //     document.documentElement.classList.remove("dark");
+    //   } else if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+    //     document.documentElement.classList.add("dark");
+    //   } else {
+    //     document.documentElement.classList.remove("dark");
+    //   }
+    // }
     applyTheme();
     if (!window.__themeSwapInit) {
       window.__themeSwapInit = true;

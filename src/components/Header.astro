@@ -115,7 +115,8 @@ const containerClass =
 
     <!-- Desktop Actions (hidden on mobile) -->
     <div class="hidden md:flex items-center space-x-2">
-      <ThemeToggle />
+      {/* LIGHT-MODE LOCK: ThemeToggle hidden while dark mode is disabled. Remove the wrapping div to re-enable. */}
+      <div class="hidden"><ThemeToggle /></div>
       <a
         href="https://github.com/holger1411/astrodeck"
         target="_blank"
@@ -141,7 +142,8 @@ const containerClass =
 
     <!-- Mobile Actions (visible on mobile) -->
     <div class="flex md:hidden items-center space-x-2">
-      <ThemeToggle />
+      {/* LIGHT-MODE LOCK: ThemeToggle hidden while dark mode is disabled. Remove the wrapping div to re-enable. */}
+      <div class="hidden"><ThemeToggle /></div>
       <button
         id="mobile-menu-button"
         class="inline-flex items-center justify-center rounded-md p-2 hover:bg-accent hover:text-accent-foreground focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary"
