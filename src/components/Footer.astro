@@ -21,14 +21,16 @@ interface Props {
 const { variant = 'boxed' } = Astro.props;
 
 const footerLinks = {
-  astrodeck: [
+  site: [
     { href: '/', label: 'Home' },
-    { href: '/news', label: 'News' },
+    { href: '/about', label: 'About' },
     { href: '/team', label: 'Team' },
+    { href: '/news', label: 'News' },
   ],
-  pages: [
-    { href: '/content', label: 'Content' },
-    { href: '/login', label: 'Login' },
+  output: [
+    { href: '/output/publications', label: 'Publications' },
+    { href: '/output/conferences', label: 'Conferences' },
+    { href: '/output/press-coverage', label: 'Press coverage' },
   ],
 };
 
@@ -52,7 +54,7 @@ const containerClass =
         <h3 class="font-semibold mb-4">BIOGAIN</h3>
         <ul class="space-y-2">
           {
-            footerLinks.astrodeck.map((link) => (
+            footerLinks.site.map((link: { href: string; label: string }) => (
               <li>
                 <a
                   href={link.href}
@@ -66,12 +68,12 @@ const containerClass =
         </ul>
       </div>
 
-      <!-- Pages -->
+      <!-- Output -->
       <div>
-        <h3 class="font-semibold mb-4">Pages</h3>
+        <h3 class="font-semibold mb-4">Output</h3>
         <ul class="space-y-2">
           {
-            footerLinks.pages.map((link) => (
+            footerLinks.output.map((link: { href: string; label: string }) => (
               <li>
                 <a
                   href={link.href}
@@ -94,7 +96,7 @@ const containerClass =
 
     <!-- Copyright -->
     <div class="mt-8 border-t pt-8 text-center text-sm text-muted-foreground">
-      <p>&copy; {new Date().getFullYear()} BIOGAIN.</p>
+      <p>&copy; {new Date().getFullYear()} BIOGAIN partners - Content on this site is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer" class="text-primary underline underline-offset-4 hover:text-primary/80 transition-colors">CC BY 4.0 License</a>.</p>
     </div>
   </div>
 </footer>

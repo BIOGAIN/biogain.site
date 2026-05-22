@@ -23,20 +23,31 @@ const { variant = 'boxed' } = Astro.props;
 
 const navItems = [
   { href: '/', label: 'Home' },
-  { href: '/news', label: 'News' },
+  { href: '/about', label: 'About' },
   { href: '/team', label: 'Team' },
+  { href: '/news', label: 'News' },
+  {
+    href: '/output',
+    label: 'Output',
+    children: [
+      { href: '/output/publications', label: 'Publications' },
+      { href: '/output/conferences', label: 'Conferences' },
+      { href: '/output/press-coverage', label: 'Press coverage' },
+    ],
+  },
 ];
 
 const currentPath = Astro.url.pathname;
 
-const containerClass =
-  variant === 'fullWidth' ? 'w-full px-4' : 'container max-w-5xl mx-auto px-4 sm:px-6';
+const outerClass = variant === 'fullWidth' ? 'w-full px-4' : 'px-4 sm:px-6';
+const innerClass = variant === 'fullWidth' ? 'w-full' : 'container max-w-5xl mx-auto';
 ---
 
 <header
   class="sticky top-0 z-50 w-full border-b bg-background"
 >
-  <div class:list={[containerClass, 'flex h-21 items-center justify-between']}>
+  <div class={outerClass}>
+  <div class:list={[innerClass, 'flex h-21 items-center justify-between']}>
     <!-- Logo -->
     <div class="flex">
       <Logo />
@@ -65,7 +76,7 @@ const containerClass =
                     <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
                   </svg>
                 </button>
-                <div class="absolute top-full left-0 pt-2 hidden group-hover:block">
+                <div class="absolute top-full left-1/2 -translate-x-1/2 pt-2 hidden group-hover:block">
                   <div class="rounded-xl border bg-card shadow-lg p-2 min-w-[140px]">
                     {item.children.map((child: {href: string; label: string}) => {
                       const isActive = currentPath.startsWith(child.href);
@@ -166,12 +177,13 @@ const containerClass =
       </button>
     </div>
   </div>
+  </div>
 
   <!-- Mobile Menu (hidden by default) -->
-  <div id="mobile-menu" class="hidden md:hidden border-t">
+  <div id="mobile-menu" class={['hidden md:hidden border-t', variant === 'fullWidth' ? 'px-4' : 'px-4 sm:px-6'].join(' ')}>
     <div
       class:list={[
-        variant === 'fullWidth' ? 'px-4' : 'container max-w-5xl mx-auto px-4',
+        variant === 'fullWidth' ? 'w-full' : 'container max-w-5xl mx-auto',
         'py-4 space-y-3',
       ]}
     >
