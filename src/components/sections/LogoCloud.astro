@@ -5,17 +5,64 @@ import AalborgLogo from '../../assets/logos/aalborg-small.svg';
 
 interface Props {
   title?: string;
+  /**
+   * "external" (default) → links go to each university's homepage in a new tab.
+   * "team-affiliation"   → links go to the matching `#affiliation-<short>` anchor
+   *                        on the team page so the consortium logos act as a jump
+   *                        navigation into the by-affiliation view.
+   */
+  linkMode?: 'external' | 'team-affiliation';
+  /** When true (default) renders as a bordered page section with vertical padding. */
+  bordered?: boolean;
+  /** Horizontal alignment of the title and logo row. Defaults to centred. */
+  align?: 'center' | 'left';
 }
 
-const { title = 'Consortium partners' } = Astro.props;
+const {
+  title = 'Consortium partners',
+  linkMode = 'external',
+  bordered = true,
+  align = 'center',
+} = Astro.props;
+
+const externalHrefs = {
+  boku: 'https://boku.ac.at',
+  tuberlin: 'https://www.tu.berlin',
+  wroclaw: 'https://upwr.edu.pl',
+  aalborg: 'https://www.aau.dk',
+  utrecht: 'https://www.uu.nl',
+};
+
+const teamHrefs = {
+  boku: '/team#affiliation-boku',
+  tuberlin: '/team#affiliation-tu-berlin',
+  wroclaw: '/team#affiliation-upwr',
+  aalborg: '/team#affiliation-aau',
+  utrecht: '/team#affiliation-uu',
+};
+
+const hrefs = linkMode === 'team-affiliation' ? teamHrefs : externalHrefs;
+const isExternal = linkMode === 'external';
+const target = isExternal ? '_blank' : undefined;
+const rel = isExternal ? 'noopener noreferrer' : undefined;
 ---
 
-<section class="py-12 border-y">
-  <div class="container max-w-5xl mx-auto px-6">
+<section class:list={[bordered && 'py-12 border-y']}>
+  <div class:list={[bordered && 'container max-w-5xl mx-auto px-6']}>
     <div class="flex flex-col gap-6">
-      <span class="text-sm text-muted-foreground font-semibold text-center">{title}</span>
-      <div class="flex flex-wrap justify-center items-center gap-x-10 gap-y-6">
-        <a href="https://boku.ac.at" target="_blank" rel="noopener noreferrer" aria-label="BOKU University Vienna">
+      <span
+        class:list={[
+          'text-sm text-muted-foreground font-semibold',
+          align === 'left' ? 'text-left' : 'text-center',
+        ]}
+      >{title}</span>
+      <div
+        class:list={[
+          'flex flex-wrap items-center gap-x-10 gap-y-6',
+          align === 'left' ? 'justify-start' : 'justify-center',
+        ]}
+      >
+        <a href={hrefs.boku} target={target} rel={rel} aria-label="BOKU University Vienna">
           <BokuLogo
             role="img"
             aria-label="BOKU University Vienna"
@@ -23,7 +70,7 @@ const { title = 'Consortium partners' } = Astro.props;
             shape-rendering="geometricPrecision"
           />
         </a>
-        <a href="https://www.tu.berlin" target="_blank" rel="noopener noreferrer" aria-label="TU Berlin">
+        <a href={hrefs.tuberlin} target={target} rel={rel} aria-label="TU Berlin">
           <TuBerlinLogo
             role="img"
             aria-label="TU Berlin"
@@ -31,7 +78,7 @@ const { title = 'Consortium partners' } = Astro.props;
             shape-rendering="geometricPrecision"
           />
         </a>
-        <a href="https://upwr.edu.pl" target="_blank" rel="noopener noreferrer" aria-label="Wrocław University of Environmental and Life Sciences">
+        <a href={hrefs.wroclaw} target={target} rel={rel} aria-label="Wrocław University of Environmental and Life Sciences">
           <img
             src="/logos/wroclaw-small.webp"
             alt="Wrocław University of Environmental and Life Sciences"
@@ -40,7 +87,7 @@ const { title = 'Consortium partners' } = Astro.props;
             decoding="async"
           />
         </a>
-        <a href="https://www.aau.dk" target="_blank" rel="noopener noreferrer" aria-label="Aalborg University">
+        <a href={hrefs.aalborg} target={target} rel={rel} aria-label="Aalborg University">
           <AalborgLogo
             role="img"
             aria-label="Aalborg University"
@@ -48,7 +95,7 @@ const { title = 'Consortium partners' } = Astro.props;
             shape-rendering="geometricPrecision"
           />
         </a>
-        <a href="https://www.uu.nl" target="_blank" rel="noopener noreferrer" aria-label="Utrecht University">
+        <a href={hrefs.utrecht} target={target} rel={rel} aria-label="Utrecht University">
           <img
             src="/logos/utrechtuniversity-small.webp"
             alt="Utrecht University"
