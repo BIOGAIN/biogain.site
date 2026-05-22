@@ -9,7 +9,7 @@ const sections = [
   { id: "custom-component", label: "Custom Component" },
   { id: "customize-theme", label: "Theme & Colors" },
   { id: "customize-design", label: "Design Tokens" },
-  { id: "add-blog-post", label: "Add a Blog Post" },
+  { id: "add-blog-post", label: "Add a News Post" },
   { id: "build-deploy", label: "Build & Deploy" },
   { id: "ai-architecture", label: "AI Architecture" },
   { id: "quality-gates", label: "Quality Gates" },
@@ -515,11 +515,11 @@ const {'{'} title, items {'}'} = Astro.props;
           </div>
         </section>
 
-        <!-- 7. Add a Blog Post -->
+        <!-- 7. Add a News Post -->
         <section id="add-blog-post" class="scroll-mt-32 lg:scroll-mt-20">
           <div class="mb-8">
-            <h2 class="text-3xl font-bold mb-2">Add a Blog Post</h2>
-            <p class="text-muted-foreground">Blog posts use Astro Content Collections. Create a Markdown file with frontmatter and it appears automatically.</p>
+            <h2 class="text-3xl font-bold mb-2">Add a News Post</h2>
+            <p class="text-muted-foreground">News posts use Astro Content Collections. Create a Markdown file with frontmatter and it appears automatically.</p>
           </div>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div class="border rounded-xl p-6 bg-card">
@@ -530,7 +530,7 @@ const {'{'} title, items {'}'} = Astro.props;
                 <h3 class="font-semibold text-sm">With AI</h3>
               </div>
               <div class="bg-muted/50 border border-border rounded-xl p-4">
-                <p class="text-sm italic">"Create a new blog post about our product launch, published today, with tags 'news' and 'launch'. Make it SEO-friendly."</p>
+                <p class="text-sm italic">"Create a new news post about our product launch, published today, with tags 'news' and 'launch'. Make it SEO-friendly."</p>
               </div>
               <p class="text-sm text-muted-foreground mt-3">
                 The AI creates the Markdown file with proper frontmatter schema and optimized content.
@@ -544,7 +544,7 @@ const {'{'} title, items {'}'} = Astro.props;
                 <h3 class="font-semibold text-sm">Manual</h3>
               </div>
               <p class="text-sm text-muted-foreground mb-3">
-                Create <code class="text-xs font-mono bg-muted px-1.5 py-0.5 rounded">src/content/blog/product-launch.md</code>:
+                Create <code class="text-xs font-mono bg-muted px-1.5 py-0.5 rounded">src/content/news/product-launch.md</code>:
               </p>
               <pre class="bg-muted/50 border border-border rounded-xl p-4 overflow-x-auto"><code class="text-sm font-mono">---
 title: "Announcing Our Launch"
@@ -562,7 +562,7 @@ Supports **bold**, *italic*,
 [links](https://example.com),
 images, and code blocks.</code></pre>
               <p class="text-sm text-muted-foreground mt-3">
-                The post appears at <code class="text-xs font-mono bg-muted px-1.5 py-0.5 rounded">/blog/product-launch</code>.
+                The post appears at <code class="text-xs font-mono bg-muted px-1.5 py-0.5 rounded">/news/product-launch</code>.
               </p>
             </div>
           </div>
@@ -751,7 +751,7 @@ npm run preview</code></pre>
 │   │   └── ui/            11 shadcn/ui components (Button, Card, Dialog, Accordion...)
 │   ├── layouts/           Page templates (Base, FullWidth, Auth, Minimal, Article)
 │   ├── pages/             File-based routing — each .astro file = one route
-│   ├── content/blog/      Markdown blog posts with Content Collections
+│   ├── content/news/      Markdown news posts with Content Collections
 │   ├── styles/globals.css Design tokens, OKLCH colors, Tailwind config
 │   ├── registry.json      Machine-readable component catalog
 │   └── lib/utils.ts       Utility functions

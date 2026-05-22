@@ -3,9 +3,10 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
 import type { GetStaticPaths, Page } from "astro";
 import type { CollectionEntry } from "astro:content";
+import { getNewsUrl } from "@/lib/news";
 
 export const getStaticPaths = (async ({ paginate }) => {
-  const allPosts = await getCollection("blog");
+  const allPosts = await getCollection("news");
   const sortedPosts = allPosts.sort(
     (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
   );
@@ -14,7 +15,7 @@ export const getStaticPaths = (async ({ paginate }) => {
 }) satisfies GetStaticPaths;
 
 interface Props {
-  page: Page<CollectionEntry<"blog">>;
+  page: Page<CollectionEntry<"news">>;
 }
 
 const { page } = Astro.props;
@@ -30,12 +31,12 @@ function formatDate(date: Date) {
 ---
 
 <BaseLayout
-  title="Blog"
+  title="News"
   description="Articles, tutorials, and thoughts on web development with Astro, React, and modern web technologies"
 >
   <div class="container max-w-4xl mx-auto py-20">
     <div class="mb-20">
-      <h1 class="text-7xl font-bold tracking-tight mb-8">Blog</h1>
+      <h1 class="text-7xl font-bold tracking-tight mb-8">News</h1>
       <p class="text-xl text-muted-foreground">
         Where ancient monsters navigate modern bureaucracy, mythical creatures struggle with technology, and the supernatural discovers that HOA violations are scarier than dragonslayers.
       </p>
@@ -45,7 +46,7 @@ function formatDate(date: Date) {
       {
         page.data.map((post, index) => (
           <article class="group">
-            <a href={`/blog/${post.id}`} class="flex items-center justify-between gap-8 -mx-6 px-6 py-4 rounded-lg transition-colors hover:bg-accent/50">
+            <a href={getNewsUrl(post)} class="flex items-center justify-between gap-8 -mx-6 px-6 py-4 rounded-lg transition-colors hover:bg-accent/50">
               <h2 class="text-4xl font-bold tracking-tight group-hover:text-primary transition-colors flex-1">
                 {post.data.title}
               </h2>

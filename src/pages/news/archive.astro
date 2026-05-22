@@ -1,9 +1,10 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
+import { getNewsUrl } from "@/lib/news";
 
-// Get all blog posts and sort by date (newest first)
-const allPosts = await getCollection("blog");
+// Get all news posts and sort by date (newest first)
+const allPosts = await getCollection("news");
 const sortedPosts = allPosts.sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
@@ -19,14 +20,14 @@ function formatDate(date: Date) {
 ---
 
 <BaseLayout
-  title="Blog Archive"
-  description="Complete archive of all blog posts"
+  title="News Archive"
+  description="Complete archive of all news posts"
 >
   <div class="container max-w-4xl mx-auto py-16">
     <div class="mb-16">
       <h1 class="text-6xl font-bold tracking-tight mb-6">Archive</h1>
       <p class="text-xl text-muted-foreground">
-        Complete list of all blog posts.
+        Complete list of all news posts.
       </p>
     </div>
 
@@ -34,7 +35,7 @@ function formatDate(date: Date) {
       {
         sortedPosts.map((post) => (
           <li>
-            <a href={`/blog/${post.id}`} class="group block">
+            <a href={getNewsUrl(post)} class="group block">
               <div class="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-4">
                 <time
                   datetime={post.data.pubDate.toISOString()}

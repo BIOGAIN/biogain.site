@@ -2,8 +2,8 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
 
-// Get all blog posts
-const allPosts = await getCollection("blog");
+// Get all news posts
+const allPosts = await getCollection("news");
 
 // Extract all unique tags and count posts per tag
 const uniqueTags = [...new Set(allPosts.map((post) => post.data.tags).flat())];
@@ -20,7 +20,7 @@ tagsWithCounts.sort((a, b) => a.tag.localeCompare(b.tag));
 
 <BaseLayout
   title="Tags"
-  description="Browse all blog post tags"
+  description="Browse all news post tags"
 >
   <div class="container max-w-4xl mx-auto py-16">
     <div class="mb-16">
