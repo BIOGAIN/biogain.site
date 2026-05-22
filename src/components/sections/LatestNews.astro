@@ -190,12 +190,27 @@ function formatDate(date: Date) {
     color: oklch(98% 0 0 / 0.7);
   }
 
-  /* Title transitions to white on hover */
+  /* Title shows the brand gradient (navy → teal → green) by default,
+     matching the global h1/h2 treatment, and transitions to white on hover. */
   .news-card-title {
-    transition: color 0.4s linear;
+    background-image: linear-gradient(
+      to right,
+      var(--color-brand-navy),
+      var(--color-brand-teal),
+      var(--color-brand-green)
+    );
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    padding-bottom: 0.1em;
+    transition:
+      color 0.4s linear,
+      -webkit-text-fill-color 0.4s linear;
   }
 
   .news-card:hover .news-card-title {
     color: oklch(98% 0 0);
+    -webkit-text-fill-color: oklch(98% 0 0);
   }
 </style>
