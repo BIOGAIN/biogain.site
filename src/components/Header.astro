@@ -43,7 +43,7 @@ const containerClass =
     </div>
 
     <!-- Desktop Navigation (hidden on mobile) -->
-    <nav class="hidden md:flex items-center gap-6 text-sm">
+    <nav class="hidden md:flex flex-1 items-center justify-end gap-6 text-xl">
       {
         navItems.map((item) => {
           if ('children' in item && item.children) {
@@ -114,27 +114,30 @@ const containerClass =
     <div class="hidden md:flex items-center space-x-2">
       {/* LIGHT-MODE LOCK: ThemeToggle hidden while dark mode is disabled. Remove the wrapping div to re-enable. */}
       <div class="hidden"><ThemeToggle /></div>
-      <a
-        href="https://github.com/holger1411/astrodeck"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="inline-flex items-center gap-2 justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 py-2"
-      >
-        GitHub
-        <svg
-          class="h-3 w-3"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-          aria-hidden="true"
+      {/* GitHub link hidden — remove the `hidden` class on the wrapping div to re-enable. */}
+      <div class="hidden">
+        <a
+          href="https://github.com/holger1411/astrodeck"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-2 justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 py-2"
         >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
-        </svg>
-      </a>
+          GitHub
+          <svg
+            class="h-3 w-3"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+          </svg>
+        </a>
+      </div>
     </div>
 
     <!-- Mobile Actions (visible on mobile) -->
@@ -217,14 +220,17 @@ const containerClass =
           );
         })
       }
-      <a
-        href="https://github.com/holger1411/astrodeck"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="block w-full text-center rounded-md text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90 py-2 px-4 mt-4"
-      >
-        GitHub
-      </a>
+      {/* GitHub link hidden — remove the `hidden` class on the wrapping div to re-enable. */}
+      <div class="hidden">
+        <a
+          href="https://github.com/holger1411/astrodeck"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="block w-full text-center rounded-md text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90 py-2 px-4 mt-4"
+        >
+          GitHub
+        </a>
+      </div>
     </div>
   </div>
 </header>
