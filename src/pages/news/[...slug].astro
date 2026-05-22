@@ -1,8 +1,9 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import { getCollection, render } from "astro:content";
+import { getCollection, getEntry, render } from "astro:content";
 import type { CollectionEntry } from "astro:content";
-import { getNewsUrl } from "@/lib/news";
+import { Image } from "astro:assets";
+import { getNewsUrl, getNewsSlug } from "@/lib/news";
 
 export async function getStaticPaths() {
   const newsPosts = await getCollection("news");
@@ -15,7 +16,7 @@ export async function getStaticPaths() {
     const year = date.getUTCFullYear();
     const month = String(date.getUTCMonth() + 1).padStart(2, "0");
     return {
-      params: { slug: `${year}/${month}/${post.id}` },
+      params: { slug: `${year}/${month}/${getNewsSlug(post)}` },
       props: {
         post,
         prevPost: index < sortedPosts.length - 1 ? sortedPosts[index + 1] : null,
@@ -34,6 +35,14 @@ interface Props {
 const { post, prevPost, nextPost } = Astro.props;
 const { Content } = await render(post);
 
+// Resolve linked team members
+const linkedTeamMembers = await Promise.all(
+  (post.data.team ?? []).map((ref) => getEntry(ref))
+);
+const teamMembers = linkedTeamMembers.filter(
+  (m): m is CollectionEntry<"team"> => m !== undefined
+);
+
 // Format date helper
 function formatDate(date: Date) {
   return new Date(date).toLocaleDateString("en-US", {
@@ -41,6 +50,48 @@ function formatDate(date: Date) {
     month: "long",
     day: "numeric",
   });
+}
+
+// Slug-based photo lookup (mirrors TeamMemberCard convention)
+const photoGlob = import.meta.glob<{ default: ImageMetadata }>(
+  "/src/assets/team/*.{webp,jpg,jpeg,png}",
+  { eager: true }
+);
+const photoExtensions = ["webp", "jpg", "jpeg", "png"];
+
+function getTeamSlug(member: CollectionEntry<"team">): string {
+  return member.id;
+}
+
+function getTeamPhoto(slug: string): ImageMetadata | undefined {
+  for (const ext of photoExtensions) {
+    const key = `/src/assets/team/${slug}.${ext}`;
+    if (photoGlob[key]) return photoGlob[key].default;
+  }
+  return undefined;
+}
+
+// Initials for placeholder avatar
+function getInitials(name: string): string {
+  const parts = name.trim().split(/\s+/);
+  if (parts.length === 1) return parts[0].charAt(0).toUpperCase();
+  return (
+    parts[0].charAt(0).toUpperCase() +
+    parts[parts.length - 1].charAt(0).toUpperCase()
+  );
+}
+
+// Deterministic pastel background colour based on name
+function avatarColor(name: string): string {
+  const palette = [
+    "#cce5f0", "#d4edda", "#fff3cd", "#f8d7da",
+    "#d1ecf1", "#e2d9f3", "#fde2c8", "#c8e6c9",
+  ];
+  let hash = 0;
+  for (let i = 0; i < name.length; i++) {
+    hash = (hash * 31 + name.charCodeAt(i)) & 0xffffff;
+  }
+  return palette[hash % palette.length];
 }
 ---
 
@@ -100,11 +151,12 @@ function formatDate(date: Date) {
       </div>
 
       <div class="container max-w-5xl mx-auto">
-        <div class="w-full aspect-[4/3] bg-gradient-to-br from-primary/20 via-primary/10 to-transparent relative overflow-hidden rounded-lg">
+        <figure class="m-0">
+          <div class="w-full aspect-[4/3] bg-gradient-to-br from-primary/20 via-primary/10 to-transparent relative overflow-hidden rounded-lg">
           {post.data.image ? (
-            <img
+            <Image
               src={post.data.image}
-              alt={post.data.title}
+              alt={post.data.imageCaption ?? post.data.title}
               class="w-full h-full object-cover"
             />
           ) : (
@@ -127,7 +179,13 @@ function formatDate(date: Date) {
               </svg>
             </div>
           )}
-        </div>
+          </div>
+          {post.data.image && post.data.imageCaption && (
+            <figcaption class="text-sm text-muted-foreground text-center mt-3 italic">
+              {post.data.imageCaption}
+            </figcaption>
+          )}
+        </figure>
       </div>
     </header>
 
@@ -135,6 +193,57 @@ function formatDate(date: Date) {
       <div class="prose prose-neutral dark:prose-invert max-w-none">
         <Content />
       </div>
+
+      <!-- Contributors block: only shown when team members are linked to this article -->
+      {teamMembers.length > 0 && (
+        <aside class="mt-12 pt-8 border-t" aria-label="Contributors">
+          <h2 class="text-sm font-semibold uppercase tracking-wide text-muted-foreground mb-6">
+            Contributors
+          </h2>
+          <div class="flex flex-wrap gap-4">
+            {teamMembers.map((member) => {
+              const memberSlug = getTeamSlug(member);
+              const initials = getInitials(member.data.name);
+              const bgColor = avatarColor(member.data.name);
+              const photo = getTeamPhoto(memberSlug);
+              return (
+                <a
+                  href={`/team#${memberSlug}`}
+                  class="flex items-center gap-3 group"
+                  aria-label={`${member.data.name} — view on team page`}
+                >
+                  <div
+                    class="w-10 h-10 rounded-full overflow-hidden shrink-0 flex items-center justify-center text-sm font-semibold text-foreground/70 transition-opacity group-hover:opacity-80"
+                    style={`background-color: ${bgColor};`}
+                  >
+                    {photo ? (
+                      <Image
+                        src={photo}
+                        alt={`Photo of ${member.data.name}`}
+                        width={40}
+                        height={40}
+                        densities={[1.5, 2]}
+                        quality={85}
+                        class="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <span>{initials}</span>
+                    )}
+                  </div>
+                  <div>
+                    <p class="text-sm font-medium leading-tight group-hover:text-primary transition-colors">
+                      {member.data.name}
+                    </p>
+                    <p class="text-xs text-muted-foreground leading-tight">
+                      {member.data.affiliationShort ?? member.data.affiliation}
+                    </p>
+                  </div>
+                </a>
+              );
+            })}
+          </div>
+        </aside>
+      )}
 
       <footer class="mt-12 pt-8 border-t">
         <nav class="flex items-center justify-between gap-8">
@@ -199,3 +308,18 @@ function formatDate(date: Date) {
     </div>
   </article>
 </BaseLayout>
+
+<style is:global>
+  /* Inline <figure> blocks emitted by the rehype-figure-caption plugin
+     from the markdown pattern `![](img)` followed by `*caption*`. */
+  .prose figure > img {
+    margin-bottom: 0 !important;
+  }
+  .prose figure > figcaption {
+    margin-top: 0.25rem !important;
+    text-align: center;
+    font-size: 0.875rem;
+    font-style: italic;
+    color: var(--color-muted-foreground, hsl(var(--muted-foreground)));
+  }
+</style>
