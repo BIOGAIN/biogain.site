@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import Hero from "@/components/sections/Hero.astro";
+import heroBg from "@/assets/benoit-deschasaux-unsplash-hero.webp";
 import LogoCloud from "@/components/sections/LogoCloud.astro";
 import Features from "@/components/sections/Features.astro";
 import AIFeature from "@/components/sections/AIFeature.astro";
@@ -40,13 +41,16 @@ const features = [
 ];
 ---
 
-<BaseLayout title="Astro.js Starter Kit" description="Open-source Astro.js starter kit with ready-to-use components, shadcn/ui, Tailwind CSS, and TypeScript. Build production-ready websites faster.">
+<BaseLayout title="BIOGAIN" description="Enabling biodiversity-positive transformation of energy planning towards climate neutrality">
+  {/* CTAs disabled for now — paste these back into <Hero> below to re-enable:
+       primaryCta={{ href: "https://github.com/holger1411/astrodeck/releases/latest", label: "Download" }}
+       secondaryCta={{ href: "https://github.com/holger1411/astrodeck", label: "GitHub" }}
+  */}
   <Hero
-    badge="true"
-    title="Your Astro project, ready to take off."
-    subtitle="AstroDeck is a production-ready <mark>Astro.js starter kit</mark> with pre-built components, shadcn/ui, dark mode, and TypeScript. <mark>Built AI-friendly</mark> with <mark>AGENTS.md</mark> – the open standard supported by OpenAI, GitHub, Google, and all major coding assistants. Plus a dedicated <mark>Claude Code Agent</mark> for intelligent project guidance."
-    primaryCta={{ href: "https://github.com/holger1411/astrodeck/releases/latest", label: "Download" }}
-    secondaryCta={{ href: "https://github.com/holger1411/astrodeck", label: "GitHub" }}
+    title="BIOGAIN"
+    titleAsLogo
+    subtitle="Enabling biodiversity-positive transformation of energy planning towards climate neutrality"
+    backgroundImage={heroBg}
   />
 
   <LogoCloud />
