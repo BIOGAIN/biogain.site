@@ -4,6 +4,7 @@ import { getCollection, getEntry, render } from "astro:content";
 import type { CollectionEntry } from "astro:content";
 import { Image } from "astro:assets";
 import { getNewsUrl, getNewsSlug } from "@/lib/news";
+import { withBase } from "@/lib/utils";
 
 export async function getStaticPaths() {
   const newsPosts = await getCollection("news");
@@ -99,7 +100,7 @@ function avatarColor(name: string): string {
   <article class="pb-12">
     <div class="container max-w-3xl mx-auto pt-12 mb-8">
       <a
-        href="/news"
+        href={withBase("/news")}
         class="inline-flex items-center text-sm text-muted-foreground hover:text-primary transition-colors"
       >
         <svg
@@ -139,7 +140,7 @@ function avatarColor(name: string): string {
             <div class="flex flex-wrap gap-2 pt-2">
               {post.data.tags.map((tag) => (
                 <a
-                  href={`/tags/${tag}`}
+                  href={withBase(`/tags/${tag}`)}
                   class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-primary/10 text-primary hover:bg-primary/20 transition-colors"
                 >
                   {tag}
@@ -208,7 +209,7 @@ function avatarColor(name: string): string {
               const photo = getTeamPhoto(memberSlug);
               return (
                 <a
-                  href={`/team#${memberSlug}`}
+                  href={withBase(`/team#${memberSlug}`)}
                   class="flex items-center gap-3 group"
                   aria-label={`${member.data.name} — view on team page`}
                 >
@@ -249,7 +250,7 @@ function avatarColor(name: string): string {
         <nav class="flex items-center justify-between gap-8">
           {prevPost ? (
             <a
-              href={getNewsUrl(prevPost)}
+              href={withBase(getNewsUrl(prevPost))}
               class="group flex-1 text-left"
             >
               <div class="text-xs text-muted-foreground mb-1">Previous</div>
@@ -262,7 +263,7 @@ function avatarColor(name: string): string {
           )}
 
           <a
-            href="/news"
+            href={withBase("/news")}
             class="inline-flex items-center text-sm text-muted-foreground hover:text-primary transition-colors"
           >
             <svg
@@ -292,7 +293,7 @@ function avatarColor(name: string): string {
 
           {nextPost ? (
             <a
-              href={getNewsUrl(nextPost)}
+              href={withBase(getNewsUrl(nextPost))}
               class="group flex-1 text-right"
             >
               <div class="text-xs text-muted-foreground mb-1">Next</div>

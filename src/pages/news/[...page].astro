@@ -5,6 +5,7 @@ import { Image } from 'astro:assets';
 import type { GetStaticPaths, Page } from 'astro';
 import type { CollectionEntry } from 'astro:content';
 import { getNewsUrl, getBlurb } from '@/lib/news';
+import { withBase } from '@/lib/utils';
 
 export const getStaticPaths = (async ({ paginate }) => {
   const allPosts = await getCollection('news');
@@ -49,7 +50,7 @@ function formatDate(date: Date) {
           return (
             <article data-animate data-delay={String(Math.min(index + 1, 5))}>
               <a
-                href={getNewsUrl(post)}
+                href={withBase(getNewsUrl(post))}
                 class="news-card group flex flex-col h-full bg-card rounded-xl border shadow-sm overflow-hidden transition-shadow hover:shadow-lg"
                 aria-label={post.data.title}
               >

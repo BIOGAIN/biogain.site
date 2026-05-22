@@ -19,6 +19,8 @@
  * />
  * ```
  */
+import { withBase } from "@/lib/utils";
+
 interface Props {
   title: string;
   description: string;
@@ -32,7 +34,7 @@ interface Props {
 const {
   title,
   description,
-  image = '/cover.png',
+  image = withBase('/cover.png'),
   type = 'website',
   publishedTime,
   author = 'BIOGAIN',
@@ -83,5 +85,5 @@ const siteName = 'BIOGAIN';
 <meta name="twitter:image:alt" content={title} />
 
 <!-- Sitemap & RSS -->
-<link rel="sitemap" href="/sitemap-index.xml" />
-<link rel="alternate" type="application/rss+xml" title="BIOGAIN News RSS Feed" href="/rss.xml" />
+<link rel="sitemap" href={withBase("/sitemap-index.xml")} />
+<link rel="alternate" type="application/rss+xml" title="BIOGAIN News RSS Feed" href={withBase("/rss.xml")} />

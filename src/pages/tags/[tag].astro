@@ -2,6 +2,7 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
 import { getNewsUrl } from "@/lib/news";
+import { withBase } from "@/lib/utils";
 
 export async function getStaticPaths() {
   const allPosts = await getCollection("news");
@@ -46,7 +47,7 @@ function formatDate(date: Date) {
   <div class="container max-w-4xl mx-auto py-16">
     <div class="mb-16">
       <a
-        href="/tags"
+        href={withBase("/tags")}
         class="inline-flex items-center text-sm text-muted-foreground hover:text-primary mb-6 transition-colors"
       >
         ← All tags
@@ -64,7 +65,7 @@ function formatDate(date: Date) {
       {
         sortedPosts.map((post) => (
           <article class="group">
-            <a href={getNewsUrl(post)} class="block space-y-4">
+            <a href={withBase(getNewsUrl(post))} class="block space-y-4">
               <h2 class="text-3xl font-bold tracking-tight group-hover:text-primary transition-colors">
                 {post.data.title}
               </h2>
@@ -87,7 +88,7 @@ function formatDate(date: Date) {
                     .filter((t) => t !== tag)
                     .map((t) => (
                       <a
-                        href={`/tags/${t}`}
+                        href={withBase(`/tags/${t}`)}
                         class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-primary/10 text-primary hover:bg-primary/20 transition-colors"
                         onclick={(e: Event) => e.stopPropagation()}
                       >

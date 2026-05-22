@@ -1,8 +1,6 @@
-# robots.txt for AstroDeck
-# https://astrodeck.dev
+# robots.txt for biogain.site
+# Currently hosted on github.io as a preview — indexing disabled.
+# See DEPLOYMENT.md for the launch checklist (un-disallow + add Sitemap).
 
 User-agent: *
-Allow: /
-
-# Sitemap location
-Sitemap: https://astrodeck.dev/sitemap-index.xml
+Disallow: /

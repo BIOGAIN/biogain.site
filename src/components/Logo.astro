@@ -12,6 +12,7 @@
  * ```
  */
 import BIOGAINLogo from '../assets/biogain_logo.svg';
+import { withBase } from '@/lib/utils';
 
 interface Props {
   /** Size variant */
@@ -29,7 +30,7 @@ const heightClasses = {
 };
 ---
 
-<a href="/" class:list={['flex items-center', className]}>
+<a href={withBase("/")} class:list={['flex items-center', className]}>
   <BIOGAINLogo
     role="img"
     aria-label="BIOGAIN Logo"

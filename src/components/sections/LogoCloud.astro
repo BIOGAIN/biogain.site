@@ -2,6 +2,7 @@
 import BokuLogo from '../../assets/logos/boku-small.svg';
 import TuBerlinLogo from '../../assets/logos/tuberlin-small.svg';
 import AalborgLogo from '../../assets/logos/aalborg-small.svg';
+import { withBase } from '@/lib/utils';
 
 interface Props {
   title?: string;
@@ -34,11 +35,11 @@ const externalHrefs = {
 };
 
 const teamHrefs = {
-  boku: '/team#affiliation-boku',
-  tuberlin: '/team#affiliation-tu-berlin',
-  wroclaw: '/team#affiliation-upwr',
-  aalborg: '/team#affiliation-aau',
-  utrecht: '/team#affiliation-uu',
+  boku: withBase('/team#affiliation-boku'),
+  tuberlin: withBase('/team#affiliation-tu-berlin'),
+  wroclaw: withBase('/team#affiliation-upwr'),
+  aalborg: withBase('/team#affiliation-aau'),
+  utrecht: withBase('/team#affiliation-uu'),
 };
 
 const hrefs = linkMode === 'team-affiliation' ? teamHrefs : externalHrefs;
@@ -80,7 +81,7 @@ const rel = isExternal ? 'noopener noreferrer' : undefined;
         </a>
         <a href={hrefs.wroclaw} target={target} rel={rel} aria-label="Wrocław University of Environmental and Life Sciences">
           <img
-            src="/logos/wroclaw-small.webp"
+            src={withBase("/logos/wroclaw-small.webp")}
             alt="Wrocław University of Environmental and Life Sciences"
             class="h-[6.75rem] w-auto"
             loading="lazy"
@@ -97,7 +98,7 @@ const rel = isExternal ? 'noopener noreferrer' : undefined;
         </a>
         <a href={hrefs.utrecht} target={target} rel={rel} aria-label="Utrecht University">
           <img
-            src="/logos/utrechtuniversity-small.webp"
+            src={withBase("/logos/utrechtuniversity-small.webp")}
             alt="Utrecht University"
             class="h-[7rem] w-auto translate-y-3"
             loading="lazy"

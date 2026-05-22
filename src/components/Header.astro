@@ -13,6 +13,7 @@
  */
 import ThemeToggle from './ThemeToggle.astro';
 import Logo from './Logo.astro';
+import { withBase } from '@/lib/utils';
 
 interface Props {
   /** Layout variant - boxed (default) or fullWidth */
@@ -37,7 +38,11 @@ const navItems = [
   },
 ];
 
-const currentPath = Astro.url.pathname;
+const baseTrimmed = import.meta.env.BASE_URL.replace(/\/$/, '');
+const rawPath = Astro.url.pathname;
+const currentPath = baseTrimmed && rawPath.startsWith(baseTrimmed)
+  ? rawPath.slice(baseTrimmed.length) || '/'
+  : rawPath;
 
 const outerClass = variant === 'fullWidth' ? 'w-full px-4' : 'px-4 sm:px-6';
 const innerClass = variant === 'fullWidth' ? 'w-full' : 'container max-w-5xl mx-auto';
@@ -82,7 +87,7 @@ const innerClass = variant === 'fullWidth' ? 'w-full' : 'container max-w-5xl mx-
                       const isActive = currentPath.startsWith(child.href);
                       return (
                         <a
-                          href={child.href}
+                          href={withBase(child.href)}
                           class:list={[
                             'block px-3 py-2 rounded-lg text-sm transition-colors',
                             isActive
@@ -105,7 +110,7 @@ const innerClass = variant === 'fullWidth' ? 'w-full' : 'container max-w-5xl mx-
             : currentPath.startsWith(item.href);
           return (
             <a
-              href={item.href}
+              href={withBase(item.href)}
               class:list={[
                 'transition-colors',
                 isActive
@@ -197,7 +202,7 @@ const innerClass = variant === 'fullWidth' ? 'w-full' : 'container max-w-5xl mx-
                   const isActive = currentPath.startsWith(child.href);
                   return (
                     <a
-                      href={child.href}
+                      href={withBase(child.href)}
                       class:list={[
                         'block px-3 py-2 pl-6 rounded-md text-base font-medium transition-colors',
                         isActive
@@ -218,7 +223,7 @@ const innerClass = variant === 'fullWidth' ? 'w-full' : 'container max-w-5xl mx-
             : currentPath.startsWith(item.href);
           return (
             <a
-              href={item.href}
+              href={withBase(item.href)}
               class:list={[
                 'block px-3 py-2 rounded-md text-base font-medium transition-colors',
                 isActive

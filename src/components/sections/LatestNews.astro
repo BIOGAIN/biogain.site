@@ -16,6 +16,7 @@
 import { getCollection } from "astro:content";
 import { Image } from "astro:assets";
 import { getNewsUrl } from "@/lib/news";
+import { withBase } from "@/lib/utils";
 
 interface Props {
   title?: string;
@@ -52,7 +53,7 @@ function formatDate(date: Date) {
         {title}
       </h2>
       <a
-        href="/news"
+        href={withBase("/news")}
         class="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors hidden sm:inline-flex items-center gap-1"
       >
         {viewAllLabel}
@@ -78,7 +79,7 @@ function formatDate(date: Date) {
         recentPosts.map((post, index) => (
           <article data-animate data-delay={String(index + 1)}>
             <a
-              href={getNewsUrl(post)}
+              href={withBase(getNewsUrl(post))}
               class="news-card group flex flex-col h-full bg-card"
             >
               {/* Image area — flush to all edges, 4:3 aspect ratio, no padding */}
@@ -134,7 +135,7 @@ function formatDate(date: Date) {
 
     <div class="mt-8 flex justify-center sm:hidden">
       <a
-        href="/news"
+        href={withBase("/news")}
         class="inline-flex items-center gap-1 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
       >
         {viewAllLabel}

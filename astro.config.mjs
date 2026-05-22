@@ -3,9 +3,13 @@ import react from '@astrojs/react';
 import tailwindcss from '@tailwindcss/vite';
 import sitemap from '@astrojs/sitemap';
 import rehypeFigureCaption from './src/lib/rehype-figure-caption.mjs';
+import rehypeBasePaths from './src/lib/rehype-base-paths.mjs';
+
+const SITE_BASE = '/biogain.site';
 
 export default defineConfig({
-  site: 'https://biogain.site',
+  site: 'https://biogain.github.io',
+  base: SITE_BASE,
   integrations: [
     react(),
     sitemap({
@@ -15,7 +19,7 @@ export default defineConfig({
     }),
   ],
   markdown: {
-    rehypePlugins: [rehypeFigureCaption],
+    rehypePlugins: [rehypeFigureCaption, [rehypeBasePaths, { base: SITE_BASE }]],
   },
   vite: {
     plugins: [tailwindcss()],
