@@ -41,6 +41,11 @@
   --color-input: oklch(91.4% 0.009 286.75);
   --color-ring: oklch(9.8% 0.0016 286.75);
 
+  /* Brand colors */
+  --color-brand-navy: #0e3c62;
+  --color-brand-teal: #009aa3;
+  --color-brand-green: #92c023;
+
   --radius: 0.5rem;
 
   /* Accordion animations */
