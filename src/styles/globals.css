@@ -89,6 +89,10 @@
   border-color: var(--color-border);
 }
 
+html {
+  scrollbar-gutter: stable;
+}
+
 body {
   background-color: var(--color-background);
   color: var(--color-foreground);
@@ -101,6 +105,8 @@ h1, h2 {
   -webkit-background-clip: text;
   color: transparent;
   -webkit-text-fill-color: transparent;
+  /* Prevent descenders (g, y, p, etc.) from being clipped by background-clip: text */
+  padding-bottom: 0.1em;
 }
 
 /* Animated brand gradient on hover for primary (navy) buttons.
