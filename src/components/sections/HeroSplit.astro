@@ -27,30 +27,34 @@ interface Props {
   primaryCta?: { href: string; label: string };
   secondaryCta?: { href: string; label: string };
   tagline?: string;
+  taglineAsPill?: boolean;
+  titleClass?: string;
   image?: { src: string; alt: string };
 }
 
-const { title, subtitle, primaryCta, secondaryCta, tagline, image } = Astro.props;
+const { title, subtitle, primaryCta, secondaryCta, tagline, taglineAsPill = true, titleClass = "", image } = Astro.props;
 ---
 
-<section class="min-h-[70vh] flex items-center py-16 md:py-24 px-6 overflow-hidden">
+<section class="flex items-center py-10 md:py-16 px-6 overflow-hidden">
   <div class="container max-w-6xl mx-auto grid md:grid-cols-2 gap-12 md:gap-16 items-center">
 
     <!-- Left column: text content -->
     <div class="flex flex-col gap-6" data-animate="slide-left">
 
-      <!-- Tagline pill -->
+      <!-- Tagline -->
       {tagline && (
-        <div class="inline-flex w-fit items-center gap-2 rounded-full border border-border bg-muted px-4 py-1.5 text-sm font-medium text-muted-foreground">
-          <span class="inline-block h-2 w-2 rounded-full bg-primary opacity-80" aria-hidden="true"></span>
-          {tagline}
-        </div>
+        taglineAsPill ? (
+          <div class="inline-flex w-fit items-center gap-2 rounded-full border border-border bg-muted px-4 py-1.5 text-sm font-medium text-muted-foreground">
+            <span class="inline-block h-2 w-2 rounded-full bg-primary opacity-80" aria-hidden="true"></span>
+            {tagline}
+          </div>
+        ) : (
+          <p class="text-sm font-medium uppercase tracking-wider text-muted-foreground">{tagline}</p>
+        )
       )}
 
       <!-- Title -->
-      <h1 class="text-5xl font-bold leading-tight tracking-tight md:text-6xl">
-        {title}
-      </h1>
+      <h1 class:list={["text-5xl font-bold leading-tight tracking-tight md:text-6xl", titleClass]} set:html={title} />
 
       <!-- Subtitle -->
       <p class="text-lg text-muted-foreground md:text-xl max-w-lg" set:html={subtitle} />
@@ -90,7 +94,7 @@ const { title, subtitle, primaryCta, secondaryCta, tagline, image } = Astro.prop
         <img
           src={image.src}
           alt={image.alt}
-          class="w-full rounded-2xl shadow-2xl shadow-foreground/10 border border-border object-cover"
+          class="w-full shadow-lg shadow-foreground/25 object-cover"
           loading="eager"
           decoding="async"
         />
