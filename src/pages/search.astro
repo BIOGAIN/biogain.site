@@ -1,0 +1,49 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { SearchResults } from "@/components/SearchResults";
+import { withBase } from "@/lib/utils";
+
+const q = Astro.url.searchParams.get("q") ?? "";
+---
+
+<BaseLayout
+  title="Search"
+  description="Search across all BIOGAIN content — news, team, publications, and more."
+>
+  <div class="py-16 px-4 sm:px-6" data-pagefind-ignore>
+    <div class="container max-w-3xl mx-auto">
+      <h1 class="text-4xl font-bold tracking-tight mb-8">Search</h1>
+
+      {/*
+        No-JS fallback form: when JS is disabled a plain GET submit hits
+        /search?q=... and the page reloads with results rendered server-side
+        via the SearchResults component (which receives initialQuery from
+        Astro.url.searchParams).
+      */}
+      <noscript>
+        <form method="get" action={withBase("/search")} class="mb-8">
+          <label for="noscript-q" class="sr-only">Search query</label>
+          <div class="flex gap-2">
+            <input
+              id="noscript-q"
+              name="q"
+              type="search"
+              placeholder="Search the site..."
+              value={q}
+              class="flex h-12 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+            />
+            <button
+              type="submit"
+              class="inline-flex items-center justify-center rounded-md bg-primary text-primary-foreground px-4 py-2 text-sm font-medium hover:bg-primary/90 transition-colors"
+            >
+              Search
+            </button>
+          </div>
+        </form>
+      </noscript>
+
+      {/* JS-enhanced search island */}
+      <SearchResults initialQuery={q} client:load />
+    </div>
+  </div>
+</BaseLayout>

@@ -19,12 +19,14 @@ interface Props {
   title: string;
   description?: string;
   image?: string;
+  pagefindIgnore?: boolean;
 }
 
-const { 
-  title, 
+const {
+  title,
   description = "AstroDeck - Modern Astro.js Component Library",
   image,
+  pagefindIgnore = false,
 } = Astro.props;
 
 const fullTitle = `${title} | AstroDeck`;
@@ -51,7 +53,7 @@ const fullTitle = `${title} | AstroDeck`;
       Skip to content
     </a>
     <Header variant="fullWidth" />
-    <main id="main-content" class="flex-1 w-full">
+    <main id="main-content" class="flex-1 w-full" {...(pagefindIgnore ? { "data-pagefind-ignore": "all" } : { "data-pagefind-body": true })}>
       <slot />
     </main>
     <Footer variant="fullWidth" />
