@@ -1,12 +1,12 @@
 import type { CollectionEntry } from 'astro:content';
 
 /**
- * Returns the clean slug for a news post, stripping a trailing "/index"
- * that Astro appends when the entry file is named index.md inside a folder.
- * e.g. "unicorn-startup-founder/index" → "unicorn-startup-founder"
+ * Returns the clean slug for a news post. Strips Astro's trailing "/index"
+ * and an optional leading YYYYMMDD- date prefix used for back-end ordering.
+ * e.g. "20260508-biogain-kickoff-vienna/index" → "biogain-kickoff-vienna"
  */
 export function getNewsSlug(post: CollectionEntry<'news'>): string {
-  return post.id.replace(/\/index$/, '');
+  return post.id.replace(/\/index$/, '').replace(/^\d{8}-/, '');
 }
 
 /**
