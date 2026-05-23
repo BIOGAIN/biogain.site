@@ -107,6 +107,8 @@ h1, h2 {
   -webkit-text-fill-color: transparent;
   /* Prevent descenders (g, y, p, etc.) from being clipped by background-clip: text */
   padding-bottom: 0.1em;
+  /* Restored line-height: +25% from the previously reduced 0.95 → 1.19 */
+  line-height: 1.19;
 }
 
 /* Animated brand gradient on hover for primary (navy) buttons.
