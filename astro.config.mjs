@@ -1,5 +1,6 @@
 import { defineConfig } from 'astro/config';
 import react from '@astrojs/react';
+import mdx from '@astrojs/mdx';
 import tailwindcss from '@tailwindcss/vite';
 import sitemap from '@astrojs/sitemap';
 import rehypeFigureCaption from './src/lib/rehype-figure-caption.mjs';
@@ -12,6 +13,7 @@ export default defineConfig({
   base: SITE_BASE,
   integrations: [
     react(),
+    mdx(),
     sitemap({
       changefreq: 'weekly',
       priority: 0.7,
