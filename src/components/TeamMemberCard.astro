@@ -105,7 +105,10 @@ const summaryHtml = summary
 const photoSize = isGrid ? 175 : compact ? 115 : 175;
 
 // ---- Icon size (list layout only; compact = ~25% smaller) ------------------
-const iconClass = compact ? "w-[18px] h-[18px]" : "w-6 h-6";
+// Mobile sizes are ~30% smaller than their sm+ counterparts.
+const iconClass = compact
+  ? "w-[13px] h-[13px] sm:w-[18px] sm:h-[18px]"
+  : "w-[17px] h-[17px] sm:w-6 sm:h-6";
 ---
 
 {isGrid ? (
@@ -165,10 +168,14 @@ const iconClass = compact ? "w-[18px] h-[18px]" : "w-6 h-6";
   </button>
 ) : (
   <article id={slug} class:list={["flex items-start gap-5 border-b border-border last:border-b-0", compact ? "py-5" : "py-8"]}>
-    <!-- Circle photo or initials placeholder -->
+    <!-- Circle photo or initials placeholder.
+         Mobile: 25vw (one-quarter of viewport width) for non-compact rows.
+         sm+: fixed photoSize. Compact mode stays at its fixed size everywhere. -->
     <div
-      class="rounded-full overflow-hidden flex items-center justify-center shrink-0"
-      style={`width: ${photoSize}px; height: ${photoSize}px;`}
+      class:list={[
+        "rounded-full overflow-hidden flex items-center justify-center shrink-0",
+        compact ? "w-[115px] h-[115px]" : "w-[25vw] h-[25vw] sm:w-[175px] sm:h-[175px]",
+      ]}
     >
       {photoSrc ? (
         <Image
@@ -214,7 +221,7 @@ const iconClass = compact ? "w-[18px] h-[18px]" : "w-6 h-6";
       </div>
 
       {summaryHtml && (
-        <div class:list={["prose prose-neutral dark:prose-invert max-w-none mt-2 text-muted-foreground", compact ? "prose-sm" : "prose-lg"]}>
+        <div class:list={["prose prose-neutral dark:prose-invert max-w-none mt-2 text-muted-foreground prose-sm"]}>
           <Fragment set:html={summaryHtml} />
         </div>
       )}
