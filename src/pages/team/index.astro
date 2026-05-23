@@ -122,7 +122,7 @@ const roleSections: { title: string; members: CollectionEntry<"team">[] }[] = [
     (function () {
       try {
         var sort = localStorage.getItem("team-sort") || "alpha";
-        var view = localStorage.getItem("team-view") || "list";
+        var view = localStorage.getItem("team-view") || "grid";
         document.documentElement.dataset.teamSort = sort;
         document.documentElement.dataset.teamView = view;
       } catch (_) {}
@@ -246,7 +246,7 @@ const roleSections: { title: string; members: CollectionEntry<"team">[] }[] = [
     -->
 
     <!-- Alphabetical · List -->
-    <div id="view-alpha-list" class="space-y-0">
+    <div id="view-alpha-list" class="hidden space-y-0">
       {
         sortedAlphabetically.map((member) => (
           <TeamMemberCard member={member} layout="list" />
@@ -254,10 +254,10 @@ const roleSections: { title: string; members: CollectionEntry<"team">[] }[] = [
       }
     </div>
 
-    <!-- Alphabetical · Grid -->
+    <!-- Alphabetical · Grid (default view on first visit) -->
     <div
       id="view-alpha-grid"
-      class="hidden grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-x-6 gap-y-10"
+      class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-x-6 gap-y-10"
     >
       {
         sortedAlphabetically.map((member) => (
@@ -424,13 +424,13 @@ const roleSections: { title: string; members: CollectionEntry<"team">[] }[] = [
     }
 
     let sortMode: SortMode = "alpha";
-    let viewMode: ViewMode = "list";
+    let viewMode: ViewMode = "grid";
 
     try {
       const savedSort = localStorage.getItem("team-sort");
       const savedView = localStorage.getItem("team-view");
       if (savedSort === "affil" || savedSort === "role") sortMode = savedSort;
-      if (savedView === "grid") viewMode = savedView;
+      if (savedView === "list") viewMode = savedView;
     } catch (_) {}
 
     // If we arrived with #affiliation-<short>, force the affiliation sort
