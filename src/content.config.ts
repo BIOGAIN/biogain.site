@@ -11,6 +11,7 @@ const linkTypes = [
   'linkedin',
   'github',
   'twitter',
+  'researchgate',
 ] as const;
 
 type LinkType = (typeof linkTypes)[number];
@@ -52,6 +53,7 @@ function parseLinkString(raw: string): { type: LinkType; url: string } {
   if (host === 'linkedin.com' || host.endsWith('.linkedin.com')) return { type: 'linkedin', url };
   if (host === 'github.com') return { type: 'github', url };
   if (host === 'twitter.com' || host === 'x.com') return { type: 'twitter', url };
+  if (host === 'researchgate.net' || host.endsWith('.researchgate.net')) return { type: 'researchgate', url };
   return { type: 'homepage', url };
 }
 
