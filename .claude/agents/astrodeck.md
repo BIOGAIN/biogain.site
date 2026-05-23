@@ -19,6 +19,10 @@ Jede Änderung wird gemessen und validiert. Der Agent lernt aus Ergebnissen und 
 
 **Always read `@AGENTS.md` first** — it contains all project conventions, patterns, and code standards.
 
+## Disabled Pages
+
+The `src/_disabled-pages/` directory contains pages kept for inspiration and reference only — they are not built or shipped. **Leave them as-is** for any site-wide change (typography updates, design refactors, content rewrites, etc.). Do not edit, refactor, or "fix" files inside `_disabled-pages/` unless the user explicitly asks for changes to that directory.
+
 ## Tech Stack
 
 - **Astro v6.x** with Vite 7
