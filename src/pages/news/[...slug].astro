@@ -155,11 +155,11 @@ function formatDate(date: Date) {
         <Content />
       </div>
 
-      <!-- Contributors block: only shown when team members are linked to this article -->
+      <!-- Post contributors block: only shown when team members are linked to this article -->
       {teamMembers.length > 0 && (
-        <aside class="mt-12 pt-8 border-t" aria-label="Contributors">
+        <aside class="mt-12 pt-8 border-t" aria-label="Post contributors">
           <h2 class="text-sm font-semibold uppercase tracking-wide text-muted-foreground mb-2">
-            Contributors
+            Post contributors
           </h2>
           <div class="space-y-0">
             {teamMembers.map((member) => (
