@@ -6,7 +6,7 @@ author: "BIOGAIN Team"
 tags: ["kick-off", "meetings"]
 image: "./kickoff-consortium-group-photo.webp"
 imageCaption: "The BIOGAIN consortium at the kick-off meeting in Vienna, 4–5 May 2026."
-team: ["bart-hoekstra", "alexandra-jiricka-purrer"]
+team: ["alexandra-jiricka-purrer", "emilia-ravn-boess", "bart-hoekstra"]
 ---
 
 # BIOGAIN launches with kick-off meeting in Vienna
@@ -45,6 +45,6 @@ In three case study regions, the consortium works with public authorities, polit
 
 The Vienna meeting set the tone for the years ahead: complex, multi-methodological research, close collaboration with practitioners across the five partner countries, and a shared ambition to make planning decisions that meet climate-neutrality targets *and* deliver more biodiverse landscapes.
 
-A particular thanks goes to Alexandra Jiricka-Pürrer, Brady Mattsson, Eva Schöll and the BOKU team for hosting the kick-off and for leading the consortium.
+A particular thanks goes to [Alexandra Jiricka-Pürrer](/team#alexandra-jiricka-purrer), [Brady Mattsson](/team#brady-mattsson), [Eva Schöll](/team#eva-scholl) and [the BOKU team](/team#affiliation-boku) for hosting the kick-off and for leading the consortium.
 
 More updates from the case study regions, methodological work packages and stakeholder events will follow in the coming months.
