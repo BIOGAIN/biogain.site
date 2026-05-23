@@ -24,9 +24,15 @@ interface Props {
   member: CollectionEntry<"team">;
   /** "list" renders a full-width row (default); "grid" renders a compact card */
   layout?: "list" | "grid";
+  /**
+   * When true and layout="list", renders a visually lighter variant:
+   * smaller photo (~115px), tighter spacing, smaller typography.
+   * Use for inline contributor blocks (e.g. below news articles).
+   */
+  compact?: boolean;
 }
 
-const { member, layout = "list" } = Astro.props;
+const { member, layout = "list", compact = false } = Astro.props;
 const { name, affiliation, affiliationShort, links, workPackages, summary } =
   member.data;
 
@@ -83,16 +89,23 @@ const initials = getInitials(name);
 const placeholderBg = avatarColor(name);
 
 // ---- Render markdown summary -----------------------------------------------
-// All anchors rendered from the markdown summary open in a new tab.
+// External (http/https) links in the summary open in a new tab; internal/
+// relative links (e.g. "/team#bart-hoekstra") stay in the same tab.
 const summaryHtml = summary
   ? marked
       .parse(summary)
       .toString()
-      .replace(/<a /g, '<a target="_blank" rel="noopener noreferrer" ')
+      .replace(
+        /<a\s+href="(https?:\/\/[^"]+)"/g,
+        '<a target="_blank" rel="noopener noreferrer" href="$1"'
+      )
   : "";
 
-// ---- Photo size (uniform across layouts) -----------------------------------
-const photoSize = 175;
+// ---- Photo size (varies by layout/compact) ---------------------------------
+const photoSize = isGrid ? 175 : compact ? 115 : 175;
+
+// ---- Icon size (list layout only; compact = ~25% smaller) ------------------
+const iconClass = compact ? "w-[18px] h-[18px]" : "w-6 h-6";
 ---
 
 {isGrid ? (
@@ -151,7 +164,7 @@ const photoSize = 175;
     </div>
   </button>
 ) : (
-  <article id={slug} class="flex items-start gap-5 py-8 border-b border-border last:border-b-0">
+  <article id={slug} class:list={["flex items-start gap-5 border-b border-border last:border-b-0", compact ? "py-5" : "py-8"]}>
     <!-- Circle photo or initials placeholder -->
     <div
       class="rounded-full overflow-hidden flex items-center justify-center shrink-0"
@@ -181,9 +194,14 @@ const photoSize = 175;
     </div>
 
     <div class="flex-1 min-w-0">
-      <h3 class="text-xl font-semibold leading-tight">{name}</h3>
+      <h3 class:list={["font-semibold leading-tight", compact ? "text-base" : "text-xl"]}>
+        <a
+          href={`/team#${slug}`}
+          class="hover:underline decoration-muted-foreground/40 underline-offset-4 focus-visible:outline-none focus-visible:underline"
+        >{name}</a>
+      </h3>
       <div class="flex items-baseline flex-wrap gap-x-3 gap-y-1 mt-0.5">
-        <p class="text-lg text-muted-foreground">{affiliation}</p>
+        <p class:list={["text-muted-foreground", compact ? "text-sm" : "text-lg"]}>{affiliation}</p>
         {workPackages
           .filter((w) => w.role)
           .map(({ wp, role }) => (
@@ -196,7 +214,7 @@ const photoSize = 175;
       </div>
 
       {summaryHtml && (
-        <div class="prose prose-lg prose-neutral dark:prose-invert max-w-none mt-2 text-muted-foreground">
+        <div class:list={["prose prose-neutral dark:prose-invert max-w-none mt-2 text-muted-foreground", compact ? "prose-sm" : "prose-lg"]}>
           <Fragment set:html={summaryHtml} />
         </div>
       )}

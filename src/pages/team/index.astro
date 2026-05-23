@@ -486,7 +486,10 @@ const roleSections: { title: string; members: CollectionEntry<"team">[] }[] = [
       const visible = containers[`${sortMode}-${viewMode}`];
       const el = visible?.querySelector<HTMLElement>(`[id="${CSS.escape(id)}"]`);
       if (el) {
-        el.scrollIntoView({ block: "center" });
+        // Affiliation sections anchor to the top (so the section header is
+        // visible). Member-slug anchors centre the card in the viewport.
+        const block = id.startsWith("affiliation-") ? "start" : "center";
+        el.scrollIntoView({ block });
       }
     }
 
@@ -535,8 +538,9 @@ const roleSections: { title: string; members: CollectionEntry<"team">[] }[] = [
         const link = target?.closest<HTMLAnchorElement>("a");
         if (!link) return;
 
-        const onTeamPage =
-          location.pathname === "/team" || location.pathname === "/team/";
+        const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+        const teamPaths = [`${base}/team`, `${base}/team/`];
+        const onTeamPage = teamPaths.includes(location.pathname);
         if (!onTeamPage) return;
 
         let url: URL;
@@ -549,7 +553,7 @@ const roleSections: { title: string; members: CollectionEntry<"team">[] }[] = [
         // Only intercept same-document /team links with a hash
         if (
           url.origin !== location.origin ||
-          (url.pathname !== "/team" && url.pathname !== "/team/") ||
+          !teamPaths.includes(url.pathname) ||
           !url.hash
         ) return;
 
