@@ -15,9 +15,10 @@
   affiliation: "Utrecht University"
   affiliationShort: "UU"
   country: "Netherlands"
-  links: []
+  links:
+    - https://www.uu.nl/staff/ASDuden
   workPackages: []
-  summary: ""
+  summary: "Anna is an Assistant Professor at [Utrecht University](https://www.uu.nl/staff/ASDuden) with over ten years of experience researching the drivers and environmental impacts of land-use change, including spatially explicit biodiversity impact assessments. Her research interests include climate change mitigation and adaptation, bioenergy, large-scale reforestation, and other nature-based solutions."
 
 - id: annette-rudolph
   name: "Annette Rudolph"
@@ -51,26 +52,34 @@
   affiliation: "BOKU University"
   affiliationShort: "BOKU"
   country: "Austria"
-  links: []
+  links:
+    - https://forschung.boku.ac.at/en/researcher/Boris-Salak-327FB3A1DFC27ED3
+    - https://landscape-tuwien.at/en/team/team-member/boris-salak
+    - https://scholar.google.com/citations?user=C85eS3kAAAAJ
+    - https://orcid.org/0000-0002-4929-8376
   workPackages: []
-  summary: ""
+  summary: "Boris is a landscape researcher at [BOKU University](https://forschung.boku.ac.at/en/researcher/Boris-Salak-327FB3A1DFC27ED3) and [TU Vienna](https://landscape-tuwien.at/en/team/team-member/boris-salak) with expertise in socio-techno-ecological transformation research, spatial energy planning, and the integration of social preferences into renewable energy siting optimization. His methodological competence includes Discrete Choice Experiments (DCEs), participatory planning approaches, spatio-temporal analysis, and quantitative multivariate modelling, particularly in the context of landscape–technology interactions and decision-making under complex trade-offs. Within BIOGAIN, he contributes to the design and analysis of stakeholder-oriented planning and decision-support approaches that connect biodiversity-positive planning with climate-neutral energy transitions."
 
 - id: brady-mattsson
   name: "Brady Mattsson"
   affiliation: "BOKU University"
   affiliationShort: "BOKU"
   country: "Austria"
-  links: []
+  links:
+    - https://boku.ac.at/en/personen/person/E0CBBD47B7286435/
+    - https://www.researchgate.net/profile/Brady-Mattsson
+    - https://scholar.google.com/citations?user=jbejajsAAAAJ
   workPackages:
     - WP4 lead
-  summary: ""
+  summary: "Brady applies population models along with developing and testing decision support systems through collaborative decision analysis and Bayesian decision networks to tackle complex conservation issues involving wildlife species.  He works as an Associate Professor at [BOKU University](https://boku.ac.at/en/personen/person/E0CBBD47B7286435/) in Vienna and is applying these methods in multi-scale contexts involving migratory birds and large mammals in diverse terrestrial systems of Europe and North America."
 
 - id: emilia-ravn-boess
   name: "Emilia Ravn Boess"
   affiliation: "Aalborg University"
   affiliationShort: "AAU"
   country: "Denmark"
-  links: []
+  links:
+    - https://vbn.aau.dk/en/persons/emiliarb/
   workPackages: []
   summary: "Emilia is an Assistant Professor at [Aalborg University](https://vbn.aau.dk/en/persons/emiliarb/) and part of the Danish Centre for Environmental Assessment focusing on sustainability and green transition. Her research focuses on biodiversity integration, environmental assessment, and the role of the Sustainable Development Goals (SDGs) in supporting sustainable transitions and decision-making processes."
 
@@ -79,28 +88,32 @@
   affiliation: "BOKU University"
   affiliationShort: "BOKU"
   country: "Austria"
-  links: []
+  links:
+    - https://boku.ac.at/en/personen/person/E282851844CCBB84/
+    - https://scholar.google.com/citations?user=wV7PNxYAAAAJ
   workPackages: []
-  summary: ""
+  summary: "Eva is a wildlife biologist working at [BOKU University](https://boku.ac.at/en/personen/person/E282851844CCBB84/), Institute of Wildlife Biology and Game Management. As a Senior Scientist, Eva studies effects of changes in land cover, land use and climate on wildlife distribution, with a particular focus on birds."
 
 - id: fabian-knufinke
   name: "Fabian Knufinke"
   affiliation: "BOKU University"
   affiliationShort: "BOKU"
   country: "Austria"
-  links: []
+  links:
+    - https://boku.ac.at/personen/person/845477E27DCC6836/
   workPackages: []
-  summary: ""
+  summary: "Fabian is a wildlife biologist working as an university assistant at the Institute of Wildlife Biology and Game Management at [BOKU University](https://boku.ac.at/personen/person/845477E27DCC6836/). He investigates the management of wildlife species and land use conflicts involving wildlife. His research involves different modelling approaches including habitat and connectivity modeling, modeling of conflict potential and Bayesian decision networks."
 
 - id: gesa-geissler
   name: "Gesa Geißler"
   affiliation: "Technische Universität Berlin"
   affiliationShort: "TU Berlin"
   country: "Germany"
-  links: []
+  links:
+    - https://www.tu.berlin/umweltpruefungen/ueber-uns/prof-dr-gesa-geissler
   workPackages:
     - WP3 lead
-  summary: ""
+  summary: "Gesa is a Professor and Head of the Environmental Assessments Department at [Technische Universität Berlin](https://www.tu.berlin/umweltpruefungen/ueber-uns/prof-dr-gesa-geissler). Her research and teaching examine the socio-environmental implications of energy transitions, with a particular focus on the role of environmental assessment and planning in shaping these processes."
 
 - id: grzegorz-chrobak
   name: "Grzegorz Chrobak"
@@ -126,9 +139,10 @@
   affiliation: "BOKU University"
   affiliationShort: "BOKU"
   country: "Austria"
-  links: []
+  links:
+    - https://forschung.boku.ac.at/en/researcher/Jendrik-Windt-FD9AF7AA4E203920
   workPackages: []
-  summary: ""
+  summary: "Jendrik is a university assistant at [BOKU University](https://forschung.boku.ac.at/en/researcher/Jendrik-Windt-FD9AF7AA4E203920), Institute of Wildlife Biology and Game Management. He develops, tests and evaluates modeling approaches to investigate ecological questions and to inform sustainable management and conservation of wildlife. His research focuses on the population dynamics and behavioral ecology of a variety of species, including birds and mammals. "
 
 - id: katarzyna-tokarczyk-dorociak
   name: "Katarzyna Tokarczyk-Dorociak"
@@ -153,7 +167,8 @@
   affiliation: "Aalborg University"
   affiliationShort: "AAU"
   country: "Denmark"
-  links: []
+  links:
+    - https://vbn.aau.dk/en/persons/lonek/
   workPackages:
     - WP1 lead
   summary: "Lone is a Professor at [Aalborg University](https://vbn.aau.dk/en/persons/lonek/), where she leads the Danish Center for Environmental Assessment. Her research focuses on sustainability, environmental assessment, and green transition processes and how sustainability can be integrated into decision-making. She is particularly concerned with creating strong links between research and practice."
@@ -163,10 +178,11 @@
   affiliation: "Utrecht University"
   affiliationShort: "UU"
   country: "Netherlands"
-  links: []
+  links:
+    - https://www.uu.nl/staff/LERamirezCamargo
   workPackages:
     - WP2 lead
-  summary: ""
+  summary: "Luis is an Assistant Professor at [Utrecht University](https://www.uu.nl/staff/LERamirezCamargo), where he is the Principal Investigator of BIOGAIN. As an energy system modeller, he leads a multidisciplinary team of researchers working on the integration of renewable energies and their impacts on society and the environment."
 
 - id: marc-ibanez
   name: "Marc Ibañez"
@@ -177,14 +193,15 @@
   workPackages: []
   summary: ""
 
-- id: pedro-henrique-lima-alencar
-  name: "Pedro Henrique Lima Alencar"
+- id: pedro-alencar
+  name: "Pedro Alencar"
   affiliation: "Technische Universität Berlin"
   affiliationShort: "TU Berlin"
   country: "Germany"
-  links: []
+  links:
+    - https://www.tu.berlin/ai-climate-land-use/ueber-uns/team/dr-pedro-alencar
   workPackages: []
-  summary: ""
+  summary: "Pedro is a senior researcher at the Chair of AI and Land Use Change at [Technische Universität Berlin](https://www.tu.berlin/ai-climate-land-use/ueber-uns/team/dr-pedro-alencar). His research investigates the impacts of climate change and hydroclimatic extremes on ecosystems and communities, with a focus on monitoring, adaptation, and mitigation strategies."
 
 - id: pita-verweij
   name: "Pita Verweij"
@@ -200,24 +217,26 @@
   affiliation: "BOKU University"
   affiliationShort: "BOKU"
   country: "Austria"
-  links: []
+  links:
+    - https://boku.ac.at/en/personen/person/96EFBEF64336AC59
   workPackages: []
-  summary: ""
+  summary: "Raffael is a researcher at [BOKU University](https://boku.ac.at/en/personen/person/96EFBEF64336AC59) and spatial planner at the Austrian Institute for Spatial Planning. His research focuses on concurring land-use demands and strategic spatial planning for renewable energy development."
 
-- id: saeed-najd-ataei
-  name: "Saeed Najd Ataei"
-  affiliation: "Technische Universität Berlin"
-  affiliationShort: "TU Berlin"
-  country: "Germany"
-  links: []
-  workPackages: []
-  summary: ""
+# - id: saeed-najd-ataei
+#   name: "Saeed Najd Ataei"
+#   affiliation: "Technische Universität Berlin"
+#   affiliationShort: "TU Berlin"
+#   country: "Germany"
+#   links: []
+#   workPackages: []
+#   summary: ""
 
 - id: sanne-vammen-larsen
   name: "Sanne Vammen Larsen"
   affiliation: "Aalborg University"
   affiliationShort: "AAU"
   country: "Denmark"
-  links: []
+  links:
+    - https://vbn.aau.dk/en/persons/sannevl/
   workPackages: []
   summary: "Sanne is an Associate Professor at [Aalborg University](https://vbn.aau.dk/en/persons/sannevl/) and part of the Danish Centre for Environmental Assessment. Her research focuses on environmental assessment, spatial planning and sustainable resource management. She emphasises engagement processes and decision-making under uncertainty."
