@@ -39,6 +39,8 @@ const { name, affiliation, affiliationShort, links, workPackages, summary } =
 const slug = member.id;
 const isGrid = layout === "grid";
 
+const baseTrimmed = import.meta.env.BASE_URL.replace(/\/$/, "");
+
 // ---- Photo lookup via slug -----------------------------------------------
 // Eagerly import all team photos so Astro can optimise them.
 const photoGlob = import.meta.glob<{ default: ImageMetadata }>(
@@ -203,7 +205,7 @@ const iconClass = compact
     <div class="flex-1 min-w-0">
       <h3 class:list={["font-semibold leading-tight", compact ? "text-base" : "text-xl"]}>
         <a
-          href={`/team#${slug}`}
+          href={`${baseTrimmed}/team#${slug}`}
           class="hover:underline decoration-muted-foreground/40 underline-offset-4 focus-visible:outline-none focus-visible:underline"
         >{name}</a>
       </h3>
