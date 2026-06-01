@@ -3,12 +3,13 @@
   affiliation: "BOKU University"
   affiliationShort: "BOKU"
   country: "Austria"
-  links: []
+  links: 
+    - https://boku.ac.at/personen/person/A74489DAFAB5F2CF
   workPackages:
     - Project coordinator
     - WP6 lead
   order: 1
-  summary: ""
+  summary: "Alexandra is Associate Professor at [BOKU University](https://boku.ac.at/personen/person/A74489DAFAB5F2CF) in the field of spatial planning with Focus and venia in the field of environmental planning. She has extensive experience in the field of Environmental Assessment both in research and teaching as well as in practical applications. Over the past five years recent research covered climate change, biodiversty and the methodological challenges and opportunities related to advanced digitalisation and AI."
 
 - id: anna-duden
   name: "Anna Duden"
@@ -189,7 +190,8 @@
   affiliation: "BOKU University"
   affiliationShort: "BOKU"
   country: "Austria"
-  links: []
+  links:
+    - https://boku.ac.at/en/personen/person/85462D83E80BAB31
   workPackages: []
   summary: "Marc is an animal geneticist working as a university assistant at the Institute of Wildlife Biology and Game Management at [BOKU University](https://boku.ac.at/en/personen/person/85462D83E80BAB31). Marc is currently trying to investigate the population health and management strategies of endangered wildlife species through the use of genetics and connectivity monitoring. The research involves population dynamics, behavioural ecology, and population genetics."
 
