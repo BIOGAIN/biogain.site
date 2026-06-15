@@ -6,7 +6,7 @@ author: "BIOGAIN Team"
 tags: ["kick-off", "meetings"]
 image: "./kickoff-consortium-group-photo.webp"
 imageCaption: "The BIOGAIN consortium at the kick-off meeting in Vienna, 4–5 May 2026."
-team: ["alexandra-jiricka-purrer", "emilia-ravn-boess", "bart-hoekstra"]
+#team: ["alexandra-jiricka-purrer", "emilia-ravn-boess", "bart-hoekstra"]
 ---
 
 # BIOGAIN launches with kick-off meeting in Vienna
