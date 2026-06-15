@@ -152,7 +152,7 @@ const roleSections: { title: string; members: CollectionEntry<"team">[] }[] = [
       aria-label="Team display controls"
     >
       <!-- Sort buttons (left) -->
-      <div class="flex items-center gap-2">
+      <div class="flex items-center flex-wrap gap-2">
         <span class="text-sm text-muted-foreground mr-1">Sort by:</span>
         <button
           id="sort-alphabetical"
@@ -178,7 +178,7 @@ const roleSections: { title: string; members: CollectionEntry<"team">[] }[] = [
       </div>
 
       <!-- View toggle (right) -->
-      <div class="flex items-center gap-2">
+      <div class="flex items-center flex-wrap gap-2">
         <span class="text-sm text-muted-foreground mr-1">View:</span>
         <button
           id="view-list-btn"

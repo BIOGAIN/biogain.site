@@ -59,48 +59,78 @@ const rel = isExternal ? 'noopener noreferrer' : undefined;
       >{title}</span>
       <div
         class:list={[
-          'flex flex-wrap items-center gap-x-10 gap-y-6',
-          align === 'left' ? 'justify-start' : 'justify-center',
+          'flex flex-nowrap sm:flex-wrap items-center gap-x-3 gap-y-6 sm:gap-x-10',
+          align === 'left' ? 'justify-start sm:justify-start' : 'justify-center',
         ]}
       >
-        <a href={hrefs.boku} target={target} rel={rel} aria-label="BOKU University Vienna">
+        <a
+          href={hrefs.boku}
+          target={target}
+          rel={rel}
+          aria-label="BOKU University Vienna"
+          class="flex-1 min-w-0 flex items-center justify-center sm:flex-none sm:block"
+        >
           <BokuLogo
             role="img"
             aria-label="BOKU University Vienna"
-            class="h-[5rem] w-auto"
+            class="max-h-[2.5rem] w-full h-auto object-contain sm:max-h-none sm:h-[5rem] sm:w-auto"
             shape-rendering="geometricPrecision"
           />
         </a>
-        <a href={hrefs.tuberlin} target={target} rel={rel} aria-label="TU Berlin">
+        <a
+          href={hrefs.tuberlin}
+          target={target}
+          rel={rel}
+          aria-label="TU Berlin"
+          class="flex-1 min-w-0 flex items-center justify-center sm:flex-none sm:block"
+        >
           <TuBerlinLogo
             role="img"
             aria-label="TU Berlin"
-            class="h-[6rem] w-auto"
+            class="max-h-[3rem] w-full h-auto object-contain sm:max-h-none sm:h-[6rem] sm:w-auto"
             shape-rendering="geometricPrecision"
           />
         </a>
-        <a href={hrefs.wroclaw} target={target} rel={rel} aria-label="Wrocław University of Environmental and Life Sciences">
+        <a
+          href={hrefs.wroclaw}
+          target={target}
+          rel={rel}
+          aria-label="Wrocław University of Environmental and Life Sciences"
+          class="flex-1 min-w-0 flex items-center justify-center sm:flex-none sm:block"
+        >
           <img
             src={withBase("/logos/wroclaw-small.webp")}
             alt="Wrocław University of Environmental and Life Sciences"
-            class="h-[6.75rem] w-auto"
+            class="max-h-[3.375rem] w-full h-auto object-contain sm:max-h-none sm:h-[6.75rem] sm:w-auto"
             loading="lazy"
             decoding="async"
           />
         </a>
-        <a href={hrefs.aalborg} target={target} rel={rel} aria-label="Aalborg University">
+        <a
+          href={hrefs.aalborg}
+          target={target}
+          rel={rel}
+          aria-label="Aalborg University"
+          class="flex-1 min-w-0 flex items-center justify-center sm:flex-none sm:block"
+        >
           <AalborgLogo
             role="img"
             aria-label="Aalborg University"
-            class="h-[6.75rem] w-auto"
+            class="max-h-[3.375rem] w-full h-auto object-contain sm:max-h-none sm:h-[6.75rem] sm:w-auto"
             shape-rendering="geometricPrecision"
           />
         </a>
-        <a href={hrefs.utrecht} target={target} rel={rel} aria-label="Utrecht University">
+        <a
+          href={hrefs.utrecht}
+          target={target}
+          rel={rel}
+          aria-label="Utrecht University"
+          class="flex-1 min-w-0 flex items-center justify-center sm:flex-none sm:block"
+        >
           <img
             src={withBase("/logos/utrechtuniversity-small.webp")}
             alt="Utrecht University"
-            class="h-[7rem] w-auto translate-y-3"
+            class="max-h-[3.5rem] w-full h-auto object-contain translate-y-1.5 sm:max-h-none sm:h-[7rem] sm:w-auto sm:translate-y-3"
             loading="lazy"
             decoding="async"
           />
