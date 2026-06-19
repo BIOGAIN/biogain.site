@@ -8,7 +8,6 @@
  * Features:
  * - Dark mode support with theme persistence
  * - View transitions for smooth page navigation
- * - Vercel Analytics integration
  * - Semantic HTML structure
  * - Complete SEO with OpenGraph and Twitter Cards
  *
@@ -36,7 +35,6 @@ import Footer from "@/components/Footer.astro";
 import SEO from "@/components/SEO.astro";
 import FontPreload from "@/components/FontPreload.astro";
 import ThemeScript from "@/components/ThemeScript.astro";
-import Analytics from "@vercel/analytics/astro";
 import AnimationObserver from "@/components/AnimationObserver.astro";
 import { withBase } from "@/lib/utils";
 
@@ -91,7 +89,6 @@ const fullTitle = `${title} | BIOGAIN`;
       <slot />
     </main>
     <Footer />
-    <Analytics />
     <AnimationObserver />
   </body>
 </html>
