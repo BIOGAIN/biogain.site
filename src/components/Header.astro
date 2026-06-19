@@ -68,8 +68,14 @@ const innerClass = variant === 'fullWidth' ? 'w-full' : 'container max-w-5xl mx-
               currentPath.startsWith(child.href)
             );
             return (
-              <div class="relative group">
+              <div class="relative group" data-dropdown>
                 <button
+                  type="button"
+                  id={`submenu-button-${item.label}`}
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                  aria-controls={`submenu-${item.label}`}
+                  data-dropdown-toggle
                   class:list={[
                     'transition-colors inline-flex items-center gap-1',
                     isChildActive
@@ -82,7 +88,7 @@ const innerClass = variant === 'fullWidth' ? 'w-full' : 'container max-w-5xl mx-
                     <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
                   </svg>
                 </button>
-                <div class="absolute top-full left-1/2 -translate-x-1/2 pt-2 hidden group-hover:block">
+                <div id={`submenu-${item.label}`} data-dropdown-menu class="absolute top-full left-1/2 -translate-x-1/2 pt-2 hidden group-hover:block">
                   <div class="rounded-xl border bg-card shadow-lg p-2 min-w-[140px]">
                     {item.children.map((child: {href: string; label: string}) => {
                       const isActive = currentPath.startsWith(child.href);
@@ -294,9 +300,70 @@ const innerClass = variant === 'fullWidth' ? 'w-full' : 'container max-w-5xl mx-
         menuButton?.setAttribute('aria-expanded', 'false');
       });
     });
+
+    // Escape closes the mobile menu and returns focus to the toggle button.
+    function closeOnEscape(e: KeyboardEvent) {
+      if (e.key !== 'Escape') return;
+      if (menuButton?.getAttribute('aria-expanded') !== 'true') return;
+      mobileMenu?.classList.add('hidden');
+      toggleHamburger(false);
+      menuButton?.setAttribute('aria-expanded', 'false');
+      menuButton?.focus();
+    }
+    // Attach to the fresh menu/button nodes (recreated on each swap) so the
+    // listeners never stack on the persistent document object.
+    menuButton?.addEventListener('keydown', closeOnEscape);
+    mobileMenu?.addEventListener('keydown', closeOnEscape);
+  }
+
+  // Desktop "Output"-style dropdowns: hover works via CSS; this adds keyboard
+  // operability (toggle, ArrowDown into the menu, Escape to close) and keeps
+  // aria-expanded in sync for screen readers.
+  function initHeaderDropdowns() {
+    document.querySelectorAll<HTMLElement>('[data-dropdown]').forEach((group) => {
+      const button = group.querySelector<HTMLButtonElement>('[data-dropdown-toggle]');
+      const menu = group.querySelector<HTMLElement>('[data-dropdown-menu]');
+      if (!button || !menu) return;
+
+      const isOpen = () => button.getAttribute('aria-expanded') === 'true';
+      const open = () => {
+        // Inline style overrides the `hidden` utility; CSS hover still works
+        // independently when closed (style reverts to '').
+        menu.style.display = 'block';
+        button.setAttribute('aria-expanded', 'true');
+      };
+      const close = () => {
+        menu.style.display = '';
+        button.setAttribute('aria-expanded', 'false');
+      };
+
+      button.addEventListener('click', () => (isOpen() ? close() : open()));
+      button.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowDown') {
+          e.preventDefault();
+          open();
+          menu.querySelector<HTMLAnchorElement>('a')?.focus();
+        }
+      });
+      group.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && isOpen()) {
+          close();
+          button.focus();
+        }
+      });
+      // Close once focus leaves the dropdown entirely (covers click-away too,
+      // since the trigger loses focus). Defer so activeElement is up to date.
+      group.addEventListener('focusout', () => {
+        requestAnimationFrame(() => {
+          if (!group.contains(document.activeElement)) close();
+        });
+      });
+    });
   }
 
   // Run on initial load and after view transitions
   initMobileMenu();
+  initHeaderDropdowns();
   document.addEventListener('astro:after-swap', initMobileMenu);
+  document.addEventListener('astro:after-swap', initHeaderDropdowns);
 </script>
