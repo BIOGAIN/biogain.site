@@ -18,6 +18,10 @@ export default defineConfig({
       changefreq: 'weekly',
       priority: 0.7,
       lastmod: new Date(),
+      // Exclude low-value/duplicate URLs: the full news archive (duplicates the
+      // paginated /news listing) and the client-side search page.
+      filter: (page) =>
+        !/\/(news\/archive|search)\/?$/.test(page),
     }),
   ],
   markdown: {

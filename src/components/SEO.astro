@@ -67,7 +67,7 @@ const siteName = 'BIOGAIN';
 <meta property="og:image:height" content="630" />
 <meta property="og:image:alt" content={title} />
 <meta property="og:site_name" content={siteName} />
-<meta property="og:locale" content="en_US" />
+<meta property="og:locale" content="en_GB" />
 
 {type === 'article' && publishedTime && (
   <>
@@ -83,6 +83,11 @@ const siteName = 'BIOGAIN';
 <meta name="twitter:description" content={description} />
 <meta name="twitter:image" content={socialImageURL} />
 <meta name="twitter:image:alt" content={title} />
+
+<!-- Icons & PWA manifest -->
+<link rel="apple-touch-icon" sizes="180x180" href={withBase("/apple-touch-icon.png")} />
+<link rel="manifest" href={withBase("/site.webmanifest")} />
+<meta name="theme-color" content="#0e3b5f" />
 
 <!-- Sitemap & RSS -->
 <link rel="sitemap" href={withBase("/sitemap-index.xml")} />
