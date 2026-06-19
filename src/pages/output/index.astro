@@ -1,0 +1,7 @@
+---
+import { withBase } from "@/lib/utils";
+
+// The "Output" nav item is a parent grouping with no page of its own.
+// Redirect /output to its first child so a direct visit never 404s.
+return Astro.redirect(withBase("/output/publications"));
+---
