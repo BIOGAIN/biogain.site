@@ -21,6 +21,8 @@
  * - Omit `tagline` to hide the badge above the title
  * - Adjust CTA buttons via primaryCta / secondaryCta props
  */
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
 import { withBase } from "@/lib/utils";
 
 interface Props {
@@ -31,7 +33,7 @@ interface Props {
   tagline?: string;
   taglineAsPill?: boolean;
   titleClass?: string;
-  image?: { src: string; alt: string };
+  image?: { src: ImageMetadata; alt: string };
 }
 
 const { title, subtitle, primaryCta, secondaryCta, tagline, taglineAsPill = true, titleClass = "", image } = Astro.props;
@@ -92,10 +94,12 @@ const { title, subtitle, primaryCta, secondaryCta, tagline, taglineAsPill = true
     <!-- Right column: image or decorative mock-up -->
     <div data-animate="slide-right" data-delay="2">
       {image ? (
-        <!-- Real image -->
-        <img
-          src={withBase(image.src)}
+        <Image
+          src={image.src}
           alt={image.alt}
+          widths={[480, 768, 1024]}
+          sizes="(min-width: 768px) 50vw, 100vw"
+          format="webp"
           class="w-full shadow-lg shadow-foreground/25 object-cover"
           loading="eager"
           decoding="async"
