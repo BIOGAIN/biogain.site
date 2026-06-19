@@ -2,7 +2,7 @@
 /**
  * Hero Section Component
  *
- * A large, centered hero section with title, subtitle, CTA buttons, and an optional badge.
+ * A large, centered hero section with title, subtitle, and CTA buttons.
  * Optionally accepts a background image (src/assets/) rendered via <Image /> as an
  * absolutely-positioned layer with a dark gradient overlay for text contrast.
  */
@@ -16,7 +16,6 @@ interface Props {
   subtitle: string;
   primaryCta?: { href: string; label: string };
   secondaryCta?: { href: string; label: string };
-  badge?: string;
   backgroundImage?: ImageMetadata;
   /** Optional photo credit, overlaid on the bottom-right of the background image */
   backgroundCredit?: string;
@@ -24,7 +23,7 @@ interface Props {
   titleAsLogo?: boolean;
 }
 
-const { title, subtitle, primaryCta, secondaryCta, badge, backgroundImage, backgroundCredit, titleAsLogo = false } = Astro.props;
+const { title, subtitle, primaryCta, secondaryCta, backgroundImage, backgroundCredit, titleAsLogo = false } = Astro.props;
 ---
 
 <section class="min-h-[33.6vh] md:min-h-[42vh] flex items-start py-[6.4vh] md:py-[9.6vh] relative overflow-hidden">
@@ -52,14 +51,6 @@ const { title, subtitle, primaryCta, secondaryCta, badge, backgroundImage, backg
     </>
   )}
   <div class="container max-w-5xl mx-auto flex flex-col items-center gap-6 text-center relative z-10" data-animate="fade">
-    {badge && (
-      <a href={withBase("/changelog")} class="inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-sm font-medium hover:bg-muted transition-colors">
-        <span class="bg-foreground text-background px-2 py-0.5 rounded-md font-semibold text-xs">
-          v3.1.4
-        </span>
-        <span>Open Source & MIT Licensed</span>
-      </a>
-    )}
     <h1 class:list={[
       titleAsLogo
         ? "flex justify-center max-w-5xl"
