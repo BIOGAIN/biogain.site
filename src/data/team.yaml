@@ -126,14 +126,14 @@
     - WP5 lead
   summary: ""
 
-- id: jasmin-wimmer
-  name: "Jasmin Wimmer"
-  affiliation: "BOKU University"
-  affiliationShort: "BOKU"
-  country: "Austria"
-  links: []
-  workPackages: []
-  summary: ""
+# - id: jasmin-wimmer
+#   name: "Jasmin Wimmer"
+#   affiliation: "BOKU University"
+#   affiliationShort: "BOKU"
+#   country: "Austria"
+#   links: []
+#   workPackages: []
+#   summary: ""
 
 - id: jendrik-windt
   name: "Jendrik Windt"
