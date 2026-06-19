@@ -71,8 +71,7 @@ const rel = isExternal ? 'noopener noreferrer' : undefined;
           class="flex-1 min-w-0 flex items-center justify-center sm:flex-none sm:block"
         >
           <BokuLogo
-            role="img"
-            aria-label="BOKU University Vienna"
+            aria-hidden="true"
             class="max-h-[2.5rem] w-full h-auto object-contain sm:max-h-none sm:h-[5rem] sm:w-auto"
             shape-rendering="geometricPrecision"
           />
@@ -85,8 +84,7 @@ const rel = isExternal ? 'noopener noreferrer' : undefined;
           class="flex-1 min-w-0 flex items-center justify-center sm:flex-none sm:block"
         >
           <TuBerlinLogo
-            role="img"
-            aria-label="TU Berlin"
+            aria-hidden="true"
             class="max-h-[3rem] w-full h-auto object-contain sm:max-h-none sm:h-[6rem] sm:w-auto"
             shape-rendering="geometricPrecision"
           />
@@ -100,7 +98,8 @@ const rel = isExternal ? 'noopener noreferrer' : undefined;
         >
           <img
             src={withBase("/logos/wroclaw-small.webp")}
-            alt="Wrocław University of Environmental and Life Sciences"
+            alt=""
+            aria-hidden="true"
             class="max-h-[3.375rem] w-full h-auto object-contain sm:max-h-none sm:h-[6.75rem] sm:w-auto"
             loading="lazy"
             decoding="async"
@@ -114,8 +113,7 @@ const rel = isExternal ? 'noopener noreferrer' : undefined;
           class="flex-1 min-w-0 flex items-center justify-center sm:flex-none sm:block"
         >
           <AalborgLogo
-            role="img"
-            aria-label="Aalborg University"
+            aria-hidden="true"
             class="max-h-[3.375rem] w-full h-auto object-contain sm:max-h-none sm:h-[6.75rem] sm:w-auto"
             shape-rendering="geometricPrecision"
           />
@@ -129,7 +127,8 @@ const rel = isExternal ? 'noopener noreferrer' : undefined;
         >
           <img
             src={withBase("/logos/utrechtuniversity-small.webp")}
-            alt="Utrecht University"
+            alt=""
+            aria-hidden="true"
             class="max-h-[3.5rem] w-full h-auto object-contain translate-y-1.5 sm:max-h-none sm:h-[7rem] sm:w-auto sm:translate-y-3"
             loading="lazy"
             decoding="async"
