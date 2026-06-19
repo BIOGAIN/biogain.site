@@ -22,6 +22,9 @@ dist/
 .DS_Store
 Thumbs.db
 
+# Template demo screenshots (removed; keep out of the repo)
+public/screenshots/
+
 # Logs
 *.log
 npm-debug.log*
