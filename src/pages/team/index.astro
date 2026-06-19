@@ -121,11 +121,11 @@ const roleSections: { title: string; members: CollectionEntry<"team">[] }[] = [
   <script is:inline>
     (function () {
       try {
-        var sort = localStorage.getItem("team-sort") || "alpha";
-        var view = localStorage.getItem("team-view") || "grid";
+        const sort = localStorage.getItem("team-sort") || "alpha";
+        const view = localStorage.getItem("team-view") || "grid";
         document.documentElement.dataset.teamSort = sort;
         document.documentElement.dataset.teamView = view;
-      } catch (_) {}
+      } catch { /* localStorage unavailable */ }
     })();
   </script>
 
@@ -431,7 +431,7 @@ const roleSections: { title: string; members: CollectionEntry<"team">[] }[] = [
       const savedView = localStorage.getItem("team-view");
       if (savedSort === "affil" || savedSort === "role") sortMode = savedSort;
       if (savedView === "list") viewMode = savedView;
-    } catch (_) {}
+    } catch { /* localStorage unavailable */ }
 
     // If we arrived with #affiliation-<short>, force the affiliation sort
     // so the target section is actually rendered before scrolling.
@@ -471,7 +471,7 @@ const roleSections: { title: string; members: CollectionEntry<"team">[] }[] = [
       try {
         localStorage.setItem("team-sort", sortMode);
         localStorage.setItem("team-view", viewMode);
-      } catch (_) {}
+      } catch { /* localStorage unavailable */ }
     }
 
     // Each member's id (and each affiliation-section id) is duplicated across
