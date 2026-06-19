@@ -1,9 +1,15 @@
 # Deployment
 
-The site is currently deployed to **GitHub Pages** at
-`https://biogain.github.io/biogain.site/` as a preview.
-Once DNS for `biogain.site` is pointed at GitHub, follow the
-**Launch checklist** below to flip to the production domain.
+The site is deployed to **GitHub Pages** and served from the production
+domain **`https://biogain-project.eu`** (with `www.biogain-project.eu`
+redirecting to the apex).
+
+It was previously hosted at `https://biogain.github.io/biogain.site/`
+as a preview behind a `/biogain.site` base path. The base-path machinery
+described below is now a no-op (`base` is empty) but kept in place so the
+site stays portable if we ever need to preview at a sub-path again. The
+**Launch checklist** records the steps that were taken to flip to the
+production domain.
 
 ## How the deploy works
 
@@ -40,29 +46,33 @@ Authors write `/foo.jpg` in markdown and the plugin emits
 `/biogain.site/foo.jpg` in the rendered HTML. Nothing in `src/content/`
 needs to know about the base.
 
-## Launch checklist — switching to biogain.site
+## Launch checklist — switching to biogain-project.eu
 
-When DNS is ready and we want to flip from the GitHub Pages preview to
-the production domain, do all of the following in one PR:
+Steps taken to flip from the GitHub Pages preview to the production
+domain (all in one PR):
 
-- [ ] **`astro.config.mjs`** — set `SITE_BASE` to `''` (or remove the
-      `base` field entirely) and change `site` back to
-      `'https://biogain.site'`. The `rehype-base-paths` plugin becomes
-      a no-op once `base` is empty, so it can stay wired up.
-- [ ] **`public/robots.txt`** — replace the `Disallow: /` block with
-      `Allow: /` and add the sitemap line:
-      `Sitemap: https://biogain.site/sitemap-index.xml`.
-- [ ] **`public/CNAME`** — create this file containing one line:
-      `biogain.site`. (Keeps GitHub Pages from wiping the custom-domain
-      setting on every deploy.)
+- [x] **`astro.config.mjs`** — `SITE_BASE` set to `''` and `site` set to
+      `'https://biogain-project.eu'`. The `rehype-base-paths` plugin
+      becomes a no-op once `base` is empty, so it stays wired up.
+- [x] **`public/robots.txt`** — replaced the `Disallow: /` block with
+      `Allow: /` and added the sitemap line:
+      `Sitemap: https://biogain-project.eu/sitemap-index.xml`.
+- [x] **`public/CNAME`** — file containing one line:
+      `biogain-project.eu`. (Keeps GitHub Pages from wiping the
+      custom-domain setting on every deploy.)
 - [ ] **GitHub repo settings** — at
       `https://github.com/BIOGAIN/biogain.site/settings/pages`, enter
-      `biogain.site` as the custom domain, wait for DNS check, then
-      enable **Enforce HTTPS**.
-- [ ] **DNS at the registrar** — apex `A` records pointing to:
-      `185.199.108.153`, `185.199.109.153`, `185.199.110.153`,
-      `185.199.111.153`. Optional: `CNAME www → BIOGAIN.github.io`.
-- [ ] **Smoke test after deploy** — load `https://biogain.site/`,
+      `biogain-project.eu` as the custom domain, wait for DNS check, then
+      enable **Enforce HTTPS**. (Already attached per the launch request —
+      verify HTTPS is enforced once DNS validates.)
+- [ ] **DNS at the registrar** — apex `A` records for `biogain-project.eu`
+      pointing to: `185.199.108.153`, `185.199.109.153`,
+      `185.199.110.153`, `185.199.111.153` (and the `AAAA` equivalents
+      `2606:50c0:8000::153` … `:8003::153` if IPv6 is desired). Add
+      `CNAME www → BIOGAIN.github.io` so `www.biogain-project.eu` resolves
+      and GitHub redirects it to the apex.
+- [ ] **Smoke test after deploy** — load `https://biogain-project.eu/`
+      and `https://www.biogain-project.eu/` (should redirect to apex),
       navigate through Home → About → News → an article → Tags. Check
       favicon, fonts, hero image, and consortium logos all load (no
       404s in the browser console).

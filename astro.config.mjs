@@ -6,10 +6,10 @@ import sitemap from '@astrojs/sitemap';
 import rehypeFigureCaption from './src/lib/rehype-figure-caption.mjs';
 import rehypeBasePaths from './src/lib/rehype-base-paths.mjs';
 
-const SITE_BASE = '/biogain.site';
+const SITE_BASE = '';
 
 export default defineConfig({
-  site: 'https://biogain.github.io',
+  site: 'https://biogain-project.eu',
   base: SITE_BASE,
   integrations: [
     react(),

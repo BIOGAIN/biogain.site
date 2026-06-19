@@ -1,6 +1,6 @@
-# robots.txt for biogain.site
-# Currently hosted on github.io as a preview — indexing disabled.
-# See DEPLOYMENT.md for the launch checklist (un-disallow + add Sitemap).
+# robots.txt for biogain-project.eu
 
 User-agent: *
-Disallow: /
+Allow: /
+
+Sitemap: https://biogain-project.eu/sitemap-index.xml
