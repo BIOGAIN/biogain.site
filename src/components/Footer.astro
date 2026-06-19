@@ -36,6 +36,34 @@ const footerLinks = {
   ],
 };
 
+// Funding acknowledgement (task 1.5).
+// BIOGAIN is funded by the five partners' national funding organisations through the
+// 2024-2025 BiodivTransform call of Biodiversa+. Rendered HiRAD-style as
+// "Funder name (ABBR grant-number)". `grant` is intentionally empty until each partner
+// supplies the number from its own grant agreement — when empty the parenthetical shows
+// just the abbreviation, never a placeholder number.
+// `lang` is set for non-English funder names so the browser can hyphenate them (hyphens:auto
+// needs a matching lang); e.g. "Forschungs-gemein-schaft" wraps only when the column is tight.
+const fundingPartners: { funder: string; abbr: string; grant?: string; lang?: string }[] = [
+  { funder: 'Austrian Science Fund', abbr: 'FWF', grant: '' },
+  { funder: 'German Research Foundation', abbr: 'DFG', grant: '', lang: 'en' },
+  { funder: 'National Science Centre Poland', abbr: 'NCN', grant: '' },
+  { funder: 'Innovation Fund Denmark', abbr: 'IFD', grant: '' },
+  { funder: 'Dutch Research Council', abbr: 'NWO', grant: 'EP.1512.25.04' },
+];
+
+// Pre-build the funder list as one HTML string so it renders identically in dev and prod
+// (Astro's dev source-mapping otherwise injects whitespace between sibling spans, e.g. a
+// stray space before each comma). German names get lang + hyphens-auto for responsive
+// hyphenation; short abbreviations simply never hit a hyphenation point.
+const fundingOrgsHtml = fundingPartners
+  .map((p) => {
+    const label = `${p.funder} (${p.grant ? `${p.abbr} ${p.grant}` : p.abbr})`;
+    return p.lang ? `<span lang="${p.lang}" class="hyphens-auto">${label}</span>` : label;
+  })
+  .map((item, i, arr) => (i === 0 ? item : (i === arr.length - 1 ? ', and ' : ', ') + item))
+  .join('');
+
 const containerClass =
   variant === 'fullWidth' ? 'w-full px-4' : 'container max-w-5xl mx-auto px-4 sm:px-6';
 ---
@@ -89,10 +117,42 @@ const containerClass =
         </ul>
       </div>
 
-      <!-- Funding -->
+      <!-- Funding (task 1.5) -->
       <div>
         <h3 class="font-semibold mb-4">Funding</h3>
-        <p class="text-sm text-muted-foreground">BIOGAIN is funded through the <a href="https://www.biodiversa.eu/2024/06/11/2024-2025-joint-call/" target="_blank" rel="noopener noreferrer" class="text-primary underline underline-offset-4 hover:text-primary/80 transition-colors">2024 - 2025 BiodivTransform</a> call.</p>
+        <p class="text-sm text-muted-foreground break-words">
+          BIOGAIN is funded through the <a
+            href="https://www.biodiversa.eu/2024/06/11/2024-2025-joint-call/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-primary underline underline-offset-4 hover:text-primary/80 transition-colors"
+            >2024 - 2025 BiodivTransform</a
+          > call, with the funding organisations <Fragment set:html={fundingOrgsHtml} />. See the
+          project page on the <a
+            href="https://www.biodiversa.eu/2026/04/03/biogain/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-primary underline underline-offset-4 hover:text-primary/80 transition-colors"
+            >Biodiversa+</a
+          > website.
+        </p>
+        <a
+          href="https://www.biodiversa.eu/2026/04/03/biogain/"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="BIOGAIN on Biodiversa+"
+          class="mt-4 inline-flex transition-opacity hover:opacity-80"
+        >
+          <img
+            src={withBase('/logos/biodiversa-plus.svg')}
+            alt="Biodiversa+"
+            width="214"
+            height="55"
+            class="h-10 w-auto"
+            loading="lazy"
+            decoding="async"
+          />
+        </a>
       </div>
     </div>
 
