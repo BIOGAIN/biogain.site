@@ -26,7 +26,8 @@
   affiliation: "Technische Universität Berlin"
   affiliationShort: "TU Berlin"
   country: "Germany"
-  links: []
+  links:
+    - https://www.tu.berlin/en/ai-climate-land-use/about/team/jun-prof-dr-annette-rudolph
   workPackages:
     - WP3 co-lead
   summary: ""
@@ -121,7 +122,8 @@
   affiliation: "Wrocław University of Environmental and Life Sciences"
   affiliationShort: "UPWr"
   country: "Poland"
-  links: []
+  links:
+    - https://bazawiedzy.upwr.edu.pl/info.seam?id=UPWrf89850f786774a2cb1bf97b2ca1699e2&lang=en
   workPackages:
     - WP5 lead
   summary: ""
@@ -141,7 +143,8 @@
   affiliation: "Wrocław University of Environmental and Life Sciences"
   affiliationShort: "UPWr"
   country: "Poland"
-  links: []
+  links:
+    - https://bazawiedzy.upwr.edu.pl/info.seam?id=UPWrff44fc30498c4f99ba0dbdbef84f7843&lang=en
   workPackages: []
   summary: ""
 
@@ -201,7 +204,8 @@
   affiliation: "Utrecht University"
   affiliationShort: "UU"
   country: "Netherlands"
-  links: []
+  links:
+    - https://www.uu.nl/staff/PAVerweij
   workPackages: []
   summary: ""
 
