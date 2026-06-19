@@ -57,11 +57,13 @@ const { title, subtitle, primaryCta, secondaryCta, backgroundImage, backgroundCr
         : "text-5xl font-bold leading-tight tracking-tight md:text-7xl lg:text-8xl lg:leading-[1.1] max-w-5xl",
     ]}>
       {titleAsLogo ? (
-        <BiogainLogo
-          role="img"
-          aria-label={title}
-          class="h-24 md:h-32 lg:h-40 w-auto halo-pulse"
-        />
+        <>
+          <BiogainLogo
+            aria-hidden="true"
+            class="h-24 md:h-32 lg:h-40 w-auto halo-pulse"
+          />
+          <span class="sr-only">{title}</span>
+        </>
       ) : (
         title
       )}

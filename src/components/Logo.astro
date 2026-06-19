@@ -30,10 +30,9 @@ const heightClasses = {
 };
 ---
 
-<a href={withBase("/")} class:list={['flex items-center', className]}>
+<a href={withBase("/")} aria-label="BIOGAIN — Go to homepage" class:list={['flex items-center', className]}>
   <BIOGAINLogo
-    role="img"
-    aria-label="BIOGAIN Logo"
+    aria-hidden="true"
     class:list={[heightClasses[size], 'w-auto']}
   />
 </a>
