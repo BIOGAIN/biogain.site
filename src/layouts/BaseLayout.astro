@@ -59,6 +59,31 @@ const {
 } = Astro.props;
 
 const fullTitle = `${title} | BIOGAIN`;
+
+// Site-wide structured data. Astro.site is set in astro.config.mjs; fall back to
+// the production origin for the dev server where it may be undefined.
+const siteOrigin = (Astro.site ?? new URL("https://biogain-project.eu")).href.replace(/\/$/, "");
+const structuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": `${siteOrigin}/#organization`,
+      name: "BIOGAIN",
+      url: `${siteOrigin}/`,
+      logo: `${siteOrigin}/cover.png`,
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${siteOrigin}/#website`,
+      name: "BIOGAIN",
+      description:
+        "Enabling biodiversity-positive transformation of energy planning towards climate neutrality",
+      url: `${siteOrigin}/`,
+      publisher: { "@id": `${siteOrigin}/#organization` },
+    },
+  ],
+};
 ---
 
 <!doctype html>
@@ -77,6 +102,7 @@ const fullTitle = `${title} | BIOGAIN`;
       publishedTime={publishedTime}
       author={author}
     />
+    <script type="application/ld+json" is:inline set:html={JSON.stringify(structuredData)} />
     <ClientRouter />
     <ThemeScript />
   </head>

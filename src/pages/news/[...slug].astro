@@ -54,9 +54,34 @@ function formatDate(date: Date) {
   });
 }
 
+// NewsArticle structured data
+const siteOrigin = (Astro.site ?? new URL("https://biogain-project.eu")).href.replace(/\/$/, "");
+const articleUrl = new URL(Astro.url.pathname, Astro.site ?? "https://biogain-project.eu").href;
+const newsArticleJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "NewsArticle",
+  headline: post.data.title,
+  description: post.data.description,
+  datePublished: post.data.pubDate.toISOString(),
+  author: { "@type": "Person", name: post.data.author },
+  publisher: {
+    "@type": "Organization",
+    name: "BIOGAIN",
+    logo: { "@type": "ImageObject", url: `${siteOrigin}/cover.png` },
+  },
+  mainEntityOfPage: { "@type": "WebPage", "@id": articleUrl },
+  ...(post.data.image ? { image: new URL(post.data.image.src, siteOrigin).href } : {}),
+};
 ---
 
-<BaseLayout title={post.data.title} description={post.data.description}>
+<BaseLayout
+  title={post.data.title}
+  description={post.data.description}
+  type="article"
+  publishedTime={post.data.pubDate}
+  author={post.data.author}
+>
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(newsArticleJsonLd)} />
   <article class="px-6 pb-12">
     <div class="container max-w-3xl mx-auto pt-12 mb-8">
       <a
