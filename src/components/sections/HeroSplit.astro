@@ -55,8 +55,8 @@ const { title, subtitle, primaryCta, secondaryCta, tagline, taglineAsPill = true
         )
       )}
 
-      <!-- Title -->
-      <h1 class:list={["text-5xl font-bold leading-tight tracking-tight md:text-6xl", titleClass]} set:html={title} />
+      <!-- Title (h2: the page-level h1 is owned by the centered Hero above) -->
+      <h2 class:list={["text-5xl font-bold leading-tight tracking-tight md:text-6xl", titleClass]} set:html={title} />
 
       <!-- Subtitle -->
       <p class="text-lg text-muted-foreground md:text-xl max-w-lg" set:html={subtitle} />
