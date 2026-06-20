@@ -19,9 +19,10 @@ export default defineConfig({
       priority: 0.7,
       lastmod: new Date(),
       // Exclude low-value/duplicate URLs: the full news archive (duplicates the
-      // paginated /news listing) and the client-side search page.
+      // paginated /news listing), the client-side search page, and the /output
+      // parent (a noindex redirect to /output/publications).
       filter: (page) =>
-        !/\/(news\/archive|search)\/?$/.test(page),
+        !/\/(news\/archive|search|output)\/?$/.test(page),
     }),
   ],
   markdown: {
