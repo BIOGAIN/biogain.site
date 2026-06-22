@@ -126,7 +126,7 @@
     - https://bazawiedzy.upwr.edu.pl/info.seam?id=UPWrf89850f786774a2cb1bf97b2ca1699e2&lang=en
   workPackages:
     - WP5 lead
-  summary: ""
+  summary: "Grzegorz is an urban scientist and academic researcher working at the intersection of environmental monitoring, ecoacoustics, network science, and spatial analysis. He leads the Soundscape and Environmental Acoustics Lab, where they study urban sound environments, acoustic biodiversity, and the relationship between sound, green infrastructure, and human experience. His work combines field measurements, geospatial data, machine learning, and graph-based methods to better understand urban ecosystems and support more resilient cities."
 
 - id: jendrik-windt
   name: "Jendrik Windt"
@@ -219,14 +219,14 @@
   workPackages: []
   summary: "Raffael is a researcher at [BOKU University](https://boku.ac.at/en/personen/person/96EFBEF64336AC59) and spatial planner at the Austrian Institute for Spatial Planning. His research focuses on concurring land-use demands and strategic spatial planning for renewable energy development."
 
-# - id: saeed-najd-ataei
-#   name: "Saeed Najd Ataei"
-#   affiliation: "Technische Universität Berlin"
-#   affiliationShort: "TU Berlin"
-#   country: "Germany"
-#   links: []
-#   workPackages: []
-#   summary: ""
+- id: saeed-najd-ataei
+  name: "Saeed Najd Ataei"
+  affiliation: "Technische Universität Berlin"
+  affiliationShort: "TU Berlin"
+  country: "Germany"
+  links: []
+  workPackages: []
+  summary: ""
 
 - id: sanne-vammen-larsen
   name: "Sanne Vammen Larsen"
