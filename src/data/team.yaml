@@ -126,7 +126,7 @@
     - https://bazawiedzy.upwr.edu.pl/info.seam?id=UPWrf89850f786774a2cb1bf97b2ca1699e2&lang=en
   workPackages:
     - WP5 lead
-  summary: "Grzegorz is an urban scientist and academic researcher working at the intersection of environmental monitoring, ecoacoustics, network science, and spatial analysis. He leads the Soundscape and Environmental Acoustics Lab, where they study urban sound environments, acoustic biodiversity, and the relationship between sound, green infrastructure, and human experience. His work combines field measurements, geospatial data, machine learning, and graph-based methods to better understand urban ecosystems and support more resilient cities."
+  summary: "Grzegorz is an urban scientist and academic researcher at [Wrocław University of Environmental and Life Sciences](https://bazawiedzy.upwr.edu.pl/info.seam?id=UPWrf89850f786774a2cb1bf97b2ca1699e2&lang=en), working at the intersection of environmental monitoring, ecoacoustics, network science, and spatial analysis. He leads the Soundscape and Environmental Acoustics Lab, where they study urban sound environments, acoustic biodiversity, and the relationship between sound, green infrastructure, and human experience. His work combines field measurements, geospatial data, machine learning, and graph-based methods to better understand urban ecosystems and support more resilient cities."
 
 - id: jendrik-windt
   name: "Jendrik Windt"
@@ -224,9 +224,11 @@
   affiliation: "Technische Universität Berlin"
   affiliationShort: "TU Berlin"
   country: "Germany"
-  links: []
+  links:
+    - https://www.tu.berlin/en/umweltpruefungen/about/student-assistants/msc-saeed-najd-ataei-sarkarabad
+    - https://www.linkedin.com/in/saeed-najdataei/
   workPackages: []
-  summary: ""
+  summary: "Saeed is a Doctoral Researcher and Research Associate at the Environmental Assessments Department at [Technische Universität Berlin](https://www.tu.berlin/en/umweltpruefungen/about/student-assistants/msc-saeed-najd-ataei-sarkarabad). His research interests include geospatial modelling, machine learning, and the application of computational methods to environmental assessment, spatial planning, and renewable energy planning."
 
 - id: sanne-vammen-larsen
   name: "Sanne Vammen Larsen"
