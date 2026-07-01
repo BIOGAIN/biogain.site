@@ -45,11 +45,11 @@ const footerLinks = {
 // `lang` is set for non-English funder names so the browser can hyphenate them (hyphens:auto
 // needs a matching lang); e.g. "Forschungs-gemein-schaft" wraps only when the column is tight.
 const fundingPartners: { funder: string; abbr: string; grant?: string; lang?: string }[] = [
-  { funder: 'Austrian Science Fund', abbr: 'FWF,', grant: '10.55776/KIN1274625' },
-  { funder: 'Federal Ministry of Research, Technology and Space (BMFTR) is funding this project within the framework of the Strategy „Research for Sustainability“', abbr: 'FONA,', grant: '03LWU0014', lang: 'en' },
-  { funder: 'National Science Centre Poland', abbr: 'NCN,', grant: '2025/07/Y/HS4/00125' },
+  { funder: 'Austrian Science Fund', abbr: 'FWF', grant: '10.55776/KIN1274625' },
+  { funder: 'Federal Ministry of Research, Technology and Space (BMFTR) is funding this project within the framework of the Strategy &ldquo;Research for Sustainability&rdquo;', abbr: 'FONA', grant: '03LWU0014', lang: 'en' },
+  { funder: 'National Science Centre Poland', abbr: 'NCN', grant: '2025/07/Y/HS4/00125' },
   { funder: 'Innovation Fund Denmark', abbr: 'IFD', grant: '' },
-  { funder: 'Dutch Research Council', abbr: 'NWO,', grant: 'EP.1512.25.04' },
+  { funder: 'Dutch Research Council', abbr: 'NWO', grant: 'EP.1512.25.04' },
 ];
 
 // Pre-build the funder list as one HTML string so it renders identically in dev and prod
@@ -58,7 +58,7 @@ const fundingPartners: { funder: string; abbr: string; grant?: string; lang?: st
 // hyphenation; short abbreviations simply never hit a hyphenation point.
 const fundingOrgsHtml = fundingPartners
   .map((p) => {
-    const label = `${p.funder} (${p.grant ? `${p.abbr} ${p.grant}` : p.abbr})`;
+    const label = `${p.funder} (${p.grant ? `${p.abbr}, ${p.grant}` : p.abbr})`;
     return p.lang ? `<span lang="${p.lang}" class="hyphens-auto">${label}</span>` : label;
   })
   .map((item, i, arr) => (i === 0 ? item : (i === arr.length - 1 ? ', and ' : ', ') + item))
