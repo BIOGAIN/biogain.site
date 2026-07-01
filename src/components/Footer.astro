@@ -45,9 +45,9 @@ const footerLinks = {
 // `lang` is set for non-English funder names so the browser can hyphenate them (hyphens:auto
 // needs a matching lang); e.g. "Forschungs-gemein-schaft" wraps only when the column is tight.
 const fundingPartners: { funder: string; abbr: string; grant?: string; lang?: string }[] = [
-  { funder: 'Austrian Science Fund', abbr: 'FWF', grant: '' },
-  { funder: 'German Research Foundation', abbr: 'DFG', grant: '', lang: 'en' },
-  { funder: 'National Science Centre Poland', abbr: 'NCN', grant: '' },
+  { funder: 'Austrian Science Fund', abbr: 'FWF', grant: '10.55776/KIN1274625' },
+  { funder: 'Federal Ministry of Research, Technology and Space (BMFTR) is funding this project within the framework of the Strategy &ldquo;Research for Sustainability&rdquo;', abbr: 'FONA', grant: '03LWU0014', lang: 'en' },
+  { funder: 'National Science Centre Poland', abbr: 'NCN', grant: '2025/07/Y/HS4/00125' },
   { funder: 'Innovation Fund Denmark', abbr: 'IFD', grant: '' },
   { funder: 'Dutch Research Council', abbr: 'NWO', grant: 'EP.1512.25.04' },
 ];
@@ -58,7 +58,7 @@ const fundingPartners: { funder: string; abbr: string; grant?: string; lang?: st
 // hyphenation; short abbreviations simply never hit a hyphenation point.
 const fundingOrgsHtml = fundingPartners
   .map((p) => {
-    const label = `${p.funder} (${p.grant ? `${p.abbr} ${p.grant}` : p.abbr})`;
+    const label = `${p.funder} (${p.grant ? `${p.abbr}, ${p.grant}` : p.abbr})`;
     return p.lang ? `<span lang="${p.lang}" class="hyphens-auto">${label}</span>` : label;
   })
   .map((item, i, arr) => (i === 0 ? item : (i === arr.length - 1 ? ', and ' : ', ') + item))
@@ -70,7 +70,7 @@ const containerClass =
 
 <footer class="border-t bg-background">
   <div class:list={[containerClass, 'py-12']}>
-    <div class="grid grid-cols-2 gap-8 md:grid-cols-4">
+    <div class="grid grid-cols-2 gap-8 md:grid-cols-3">
       <!-- Brand -->
       <div class="col-span-2 md:col-span-1">
         <Logo />
@@ -116,18 +116,20 @@ const containerClass =
           }
         </ul>
       </div>
+    </div>
 
-      <!-- Funding (task 1.5) -->
-      <div class="col-span-2 md:col-span-1">
-        <h3 class="font-semibold mb-4">Funding</h3>
-        <p class="text-sm text-muted-foreground break-words">
-          BIOGAIN is funded through the <a
+    <!-- Funding (task 1.5) -->
+    <div class="mt-8 border-t pt-8">
+      <h3 class="font-semibold mb-4">Funding</h3>
+      <div class="flex flex-col gap-6 md:flex-row md:items-start md:gap-8">
+        <p class="text-sm text-muted-foreground break-words md:flex-1">
+          BIOGAIN is funded by Biodiversa+, the European Biodiversity Partnership under the <a
             href="https://www.biodiversa.eu/2024/06/11/2024-2025-joint-call/"
             target="_blank"
             rel="noopener noreferrer"
             class="text-primary underline underline-offset-4 hover:text-primary/80 transition-colors"
             >2024 - 2025 BiodivTransform</a
-          > call, with the funding organisations <Fragment set:html={fundingOrgsHtml} />. See the
+          > joint call. It was co-funded by the European Commission (GA No. 101052342) and the following funding organisations: <Fragment set:html={fundingOrgsHtml} />. See the
           project page on the <a
             href="https://www.biodiversa.eu/2026/04/03/biogain/"
             target="_blank"
@@ -141,7 +143,7 @@ const containerClass =
           target="_blank"
           rel="noopener noreferrer"
           aria-label="BIOGAIN on Biodiversa+"
-          class="mt-4 inline-flex transition-opacity hover:opacity-80"
+          class="inline-flex shrink-0 transition-opacity hover:opacity-80"
         >
           <img
             src={withBase('/logos/biodiversa-plus.svg')}
