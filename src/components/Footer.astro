@@ -70,7 +70,7 @@ const containerClass =
 
 <footer class="border-t bg-background">
   <div class:list={[containerClass, 'py-12']}>
-    <div class="grid grid-cols-2 gap-8 md:grid-cols-4">
+    <div class="grid grid-cols-2 gap-8 md:grid-cols-3">
       <!-- Brand -->
       <div class="col-span-2 md:col-span-1">
         <Logo />
@@ -116,11 +116,13 @@ const containerClass =
           }
         </ul>
       </div>
+    </div>
 
-      <!-- Funding (task 1.5) -->
-      <div class="col-span-2 md:col-span-1">
-        <h3 class="font-semibold mb-4">Funding</h3>
-        <p class="text-sm text-muted-foreground break-words">
+    <!-- Funding (task 1.5) -->
+    <div class="mt-8 border-t pt-8">
+      <h3 class="font-semibold mb-4">Funding</h3>
+      <div class="flex flex-col gap-6 md:flex-row md:items-start md:gap-8">
+        <p class="text-sm text-muted-foreground break-words md:flex-1">
           BIOGAIN is funded by Biodiversa+, the European Biodiversity Partnership under the <a
             href="https://www.biodiversa.eu/2024/06/11/2024-2025-joint-call/"
             target="_blank"
@@ -141,7 +143,7 @@ const containerClass =
           target="_blank"
           rel="noopener noreferrer"
           aria-label="BIOGAIN on Biodiversa+"
-          class="mt-4 inline-flex transition-opacity hover:opacity-80"
+          class="inline-flex shrink-0 transition-opacity hover:opacity-80"
         >
           <img
             src={withBase('/logos/biodiversa-plus.svg')}
