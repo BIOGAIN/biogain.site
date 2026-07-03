@@ -1,16 +1,29 @@
 ---
-import BokuLogo from '../../assets/logos/boku-small.svg';
-import TuBerlinLogo from '../../assets/logos/tuberlin-small.svg';
-import AalborgLogo from '../../assets/logos/aalborg-small.svg';
-import { withBase } from '@/lib/utils';
+import { partnerLogos, funderLogos } from '@/data/logos';
+import { withBase, cn } from '@/lib/utils';
 
 interface Props {
+  /**
+   * Which set of logos to render.
+   * "partners" (default) → consortium universities.
+   * "funders"            → funding organisations (rendered as a separate group).
+   */
+  set?: 'partners' | 'funders';
+  /**
+   * Logo shape to use (partners only).
+   * "compact" (default) → square-ish logos for tight spots (e.g. team page).
+   * "wide"              → horizontal logos for roomy spots (e.g. footer).
+   * Funders always render their single logo regardless of this prop.
+   */
+  variant?: 'compact' | 'wide';
+  /** Section label. Defaults to a sensible label per set. */
   title?: string;
   /**
-   * "external" (default) → links go to each university's homepage in a new tab.
-   * "team-affiliation"   → links go to the matching `#affiliation-<short>` anchor
-   *                        on the team page so the consortium logos act as a jump
-   *                        navigation into the by-affiliation view.
+   * Link target (partners only).
+   * "external" (default) → each university's homepage in a new tab.
+   * "team-affiliation"   → the matching `#affiliation-<short>` anchor on the team
+   *                        page, so the logos act as a jump nav into that view.
+   * Funders always link externally.
    */
   linkMode?: 'external' | 'team-affiliation';
   /** When true (default) renders as a bordered page section with vertical padding. */
@@ -20,30 +33,76 @@ interface Props {
 }
 
 const {
-  title = 'Consortium partners',
+  set = 'partners',
+  variant = 'compact',
+  title,
   linkMode = 'external',
   bordered = true,
   align = 'center',
 } = Astro.props;
 
-const externalHrefs = {
-  boku: 'https://boku.ac.at',
-  tuberlin: 'https://www.tu.berlin',
-  wroclaw: 'https://upwr.edu.pl',
-  aalborg: 'https://www.aau.dk',
-  utrecht: 'https://www.uu.nl',
-};
+const isFunders = set === 'funders';
+const isWide = !isFunders && variant === 'wide';
+const resolvedTitle = title ?? (isFunders ? 'Funded by' : 'Consortium partners');
 
-const teamHrefs = {
-  boku: withBase('/team#affiliation-boku'),
-  tuberlin: withBase('/team#affiliation-tu-berlin'),
-  wroclaw: withBase('/team#affiliation-upwr'),
-  aalborg: withBase('/team#affiliation-aau'),
-  utrecht: withBase('/team#affiliation-uu'),
-};
+// Normalise both sets into a common shape for a single render loop, dropping any
+// entry whose logo file hasn't been added yet (src === undefined).
+type Item = { href: string; label: string; src: string; imgClass: string; anchorClass: string };
 
-const hrefs = linkMode === 'team-affiliation' ? teamHrefs : externalHrefs;
-const isExternal = linkMode === 'external';
+// Common <img> classes; per-item sizing is appended from the manifest.
+const compactImgBase = 'w-full h-auto object-contain sm:max-h-none sm:w-auto';
+// Funders start at the average of the partners' wide heights (~49.5/66/82.5px),
+// then each can be nudged per-logo via `logoClass` in logos.ts.
+const funderImgBase = 'h-[3.09rem] sm:h-[4.13rem] md:h-[5.16rem] w-auto object-contain';
+// Wide layout: every logo shares one definite height and keeps its natural width,
+// so the spacing between logos is a single consistent gap (rather than the uneven
+// gaps you get when each logo is centred in an equal-width slot). A definite `h-*`
+// (not `max-h` + `h-auto`) is required so SVGs that ship only a viewBox — no
+// width/height — still get a size instead of collapsing to zero in an <img>. A
+// logo can be nudged taller/shorter per-logo with `wideClass` in logos.ts.
+const wideImgBase = 'h-12 sm:h-16 md:h-20 w-auto object-contain';
+
+// Compact partner logos stretch to share the row on mobile, then size naturally
+// from `sm:` up. Wide partner and funder logos keep their natural width, never
+// stretch, and wrap onto multiple lines with a single consistent gap.
+const compactAnchor =
+  'flex-1 min-w-0 flex items-center justify-center sm:flex-none sm:block';
+const naturalAnchor = 'flex shrink-0 items-center justify-center';
+
+let items: Item[];
+if (isFunders) {
+  items = funderLogos
+    .filter((f) => f.logo)
+    .map((f) => ({
+      href: f.url,
+      label: f.name,
+      src: f.logo!,
+      imgClass: cn(funderImgBase, f.logoClass),
+      anchorClass: naturalAnchor,
+    }));
+} else {
+  items = partnerLogos
+    .map((p) => {
+      const src = isWide ? p.wide : p.compact;
+      if (!src) return null;
+      const href =
+        linkMode === 'team-affiliation' ? withBase(p.teamAnchor) : p.url;
+      return {
+        href,
+        label: p.name,
+        src,
+        imgClass: isWide
+          ? cn(wideImgBase, p.wideClass)
+          : `${compactImgBase} ${p.compactClass}`,
+        anchorClass: isWide ? naturalAnchor : compactAnchor,
+      };
+    })
+    .filter((x): x is Item => x !== null);
+}
+
+// Funders and external partner links open in a new tab; team-affiliation jumps
+// stay in the same tab.
+const isExternal = isFunders || linkMode === 'external';
 const target = isExternal ? '_blank' : undefined;
 const rel = isExternal ? 'noopener noreferrer' : undefined;
 ---
@@ -56,84 +115,36 @@ const rel = isExternal ? 'noopener noreferrer' : undefined;
           'text-sm text-muted-foreground font-semibold',
           align === 'left' ? 'text-left' : 'text-center',
         ]}
-      >{title}</span>
+      >{resolvedTitle}</span>
       <div
         class:list={[
-          'flex flex-nowrap sm:flex-wrap items-center gap-x-3 gap-y-6 sm:gap-x-10',
+          'flex items-center',
+          isWide || isFunders
+            ? 'flex-wrap gap-x-8 gap-y-6 sm:gap-x-10 md:gap-x-12'
+            : 'flex-nowrap sm:flex-wrap gap-x-3 gap-y-6 sm:gap-x-10',
           align === 'left' ? 'justify-start sm:justify-start' : 'justify-center',
         ]}
       >
-        <a
-          href={hrefs.boku}
-          target={target}
-          rel={rel}
-          aria-label="BOKU University Vienna"
-          class="flex-1 min-w-0 flex items-center justify-center sm:flex-none sm:block"
-        >
-          <BokuLogo
-            aria-hidden="true"
-            class="max-h-[2.5rem] w-full h-auto object-contain sm:max-h-none sm:h-[5rem] sm:w-auto"
-            shape-rendering="geometricPrecision"
-          />
-        </a>
-        <a
-          href={hrefs.tuberlin}
-          target={target}
-          rel={rel}
-          aria-label="TU Berlin"
-          class="flex-1 min-w-0 flex items-center justify-center sm:flex-none sm:block"
-        >
-          <TuBerlinLogo
-            aria-hidden="true"
-            class="max-h-[3rem] w-full h-auto object-contain sm:max-h-none sm:h-[6rem] sm:w-auto"
-            shape-rendering="geometricPrecision"
-          />
-        </a>
-        <a
-          href={hrefs.wroclaw}
-          target={target}
-          rel={rel}
-          aria-label="Wrocław University of Environmental and Life Sciences"
-          class="flex-1 min-w-0 flex items-center justify-center sm:flex-none sm:block"
-        >
-          <img
-            src={withBase("/logos/wroclaw-small.webp")}
-            alt=""
-            aria-hidden="true"
-            class="max-h-[3.375rem] w-full h-auto object-contain sm:max-h-none sm:h-[6.75rem] sm:w-auto"
-            loading="lazy"
-            decoding="async"
-          />
-        </a>
-        <a
-          href={hrefs.aalborg}
-          target={target}
-          rel={rel}
-          aria-label="Aalborg University"
-          class="flex-1 min-w-0 flex items-center justify-center sm:flex-none sm:block"
-        >
-          <AalborgLogo
-            aria-hidden="true"
-            class="max-h-[3.375rem] w-full h-auto object-contain sm:max-h-none sm:h-[6.75rem] sm:w-auto"
-            shape-rendering="geometricPrecision"
-          />
-        </a>
-        <a
-          href={hrefs.utrecht}
-          target={target}
-          rel={rel}
-          aria-label="Utrecht University"
-          class="flex-1 min-w-0 flex items-center justify-center sm:flex-none sm:block"
-        >
-          <img
-            src={withBase("/logos/utrechtuniversity-small.webp")}
-            alt=""
-            aria-hidden="true"
-            class="max-h-[3.5rem] w-full h-auto object-contain translate-y-1.5 sm:max-h-none sm:h-[7rem] sm:w-auto sm:translate-y-3"
-            loading="lazy"
-            decoding="async"
-          />
-        </a>
+        {
+          items.map((item) => (
+            <a
+              href={item.href}
+              target={target}
+              rel={rel}
+              aria-label={item.label}
+              class={item.anchorClass}
+            >
+              <img
+                src={item.src}
+                alt=""
+                aria-hidden="true"
+                class={item.imgClass}
+                loading="lazy"
+                decoding="async"
+              />
+            </a>
+          ))
+        }
       </div>
     </div>
   </div>

@@ -177,19 +177,49 @@
     {
       "name": "LogoCloud",
       "file": "src/components/sections/LogoCloud.astro",
-      "description": "Technology stack logo bar showing inline SVG logos for Astro, Tailwind CSS, React, TypeScript, shadcn/ui, and Claude Code. Hardcoded logos — not configurable via props. Accepts only a custom label text.",
-      "variants": 1,
+      "description": "Data-driven logo bar for consortium partners or funding organisations. Reads from the shared manifest src/data/logos.ts. Partners support a compact (square-ish, e.g. team page) and wide (horizontal, e.g. footer) variant; funders render as a separate group. Entries whose logo file hasn't been added yet are skipped automatically.",
+      "variants": 2,
       "props": {
+        "set": {
+          "type": "'partners' | 'funders'",
+          "required": false,
+          "default": "partners",
+          "description": "Which logo set to render"
+        },
+        "variant": {
+          "type": "'compact' | 'wide'",
+          "required": false,
+          "default": "compact",
+          "description": "Partner logo shape; wide falls back to compact when no -wide file exists"
+        },
         "title": {
           "type": "string",
           "required": false,
-          "default": "Built with:",
-          "description": "Label text displayed before the logo row"
+          "default": "'Consortium partners' (partners) / 'Funded by' (funders)",
+          "description": "Section label"
+        },
+        "linkMode": {
+          "type": "'external' | 'team-affiliation'",
+          "required": false,
+          "default": "external",
+          "description": "Partner links go to homepages (external) or /team#affiliation-* anchors (team-affiliation); funders always link externally"
+        },
+        "bordered": {
+          "type": "boolean",
+          "required": false,
+          "default": "true",
+          "description": "Render as a bordered section with vertical padding"
+        },
+        "align": {
+          "type": "'center' | 'left'",
+          "required": false,
+          "default": "center",
+          "description": "Horizontal alignment of the title and logo row"
         }
       },
-      "features": ["responsive", "dark-mode"],
+      "features": ["responsive", "dark-mode", "data-driven", "external-links"],
       "category": "social-proof",
-      "notes": "All 6 logos (Astro, Tailwind, React, TypeScript, shadcn/ui, Claude Code) are hardcoded inline SVGs — they cannot be swapped via props. Edit the component directly to change logos. Layout: flex-col on mobile, flex-row on lg."
+      "notes": "Logos are defined in src/data/logos.ts and stored under src/assets/logos/{partners,funders}/ following the naming convention partners/<key>-compact.<ext>, partners/<key>-wide.<ext>, funders/<key>.<ext>. Files are imported as build-hashed URLs and rendered via <img> (SVGs stay crisp; small SVGs may inline as data URIs). The Footer's Biodiversa+ logo reads from the same manifest."
     },
     {
       "name": "AIFeature",
