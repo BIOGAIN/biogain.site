@@ -15,6 +15,21 @@
 
 ---
 
+## Raster Conversion Defaults
+
+For imported raster photographs:
+
+- Convert to WebP.
+- Resize so the **longest edge is at most 2500 px**, preserving the original aspect ratio.
+- Do not enlarge sources whose longest edge is already below 2500 px.
+- Apply the source's EXIF orientation before resizing.
+- Strip embedded metadata, including GPS coordinates, from the converted file.
+- Adjust WebP quality as needed to meet the file-size limits below; do not reduce dimensions below the 2500 px default solely to meet those limits.
+
+This is the project-wide default for future image conversions unless a specific asset requirement overrides it, such as the fixed dimensions for an Open Graph image or favicon.
+
+---
+
 ## Astro Image Component
 
 ```astro

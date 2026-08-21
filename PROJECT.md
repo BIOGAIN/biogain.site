@@ -33,6 +33,13 @@ Language: US English
 
 ## Content collections
 
+### Image conversion default
+
+- Convert raster photographs to WebP with the longest edge capped at **2500 px**.
+- Preserve the original aspect ratio and never enlarge an image whose longest edge is already below 2500 px.
+- Apply EXIF orientation and strip embedded metadata, including GPS data, from the converted asset.
+- Adjust WebP quality as needed to meet the size thresholds in `system/globals/imagery.md`.
+
 ### Linking news items to team members
 
 The `news` collection has an optional `team` field that takes an array of team member slugs (the folder name under `src/content/team/`). When populated, the news detail page renders a "Contributors" block with circle avatars linking back to `/team#<slug>`.
