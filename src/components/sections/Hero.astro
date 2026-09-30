@@ -117,13 +117,19 @@ const { title, subtitle, primaryCta, secondaryCta, backgroundImage, backgroundCr
 </style>
 
 <script>
-  const img = document.querySelector<HTMLElement>("[data-hero-parallax]");
-  const credit = document.querySelector<HTMLElement>("[data-hero-credit]");
-  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
-  // Parallax is a desktop-only enhancement: stronger effect, skipped on mobile.
-  const desktop = window.matchMedia("(min-width: 768px)");
+  let cleanupParallax: (() => void) | undefined;
 
-  if (img) {
+  const initParallax = () => {
+    cleanupParallax?.();
+    cleanupParallax = undefined;
+
+    const img = document.querySelector<HTMLElement>("[data-hero-parallax]");
+    if (!img) return;
+
+    const credit = document.querySelector<HTMLElement>("[data-hero-credit]");
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
+    // Parallax is a desktop-only enhancement: stronger effect, skipped on mobile.
+    const desktop = window.matchMedia("(min-width: 768px)");
     let ticking = false;
     const update = () => {
       // Stronger parallax on desktop, a gentler version on mobile, none if reduced-motion.
@@ -149,5 +155,14 @@ const { title, subtitle, primaryCta, secondaryCta, backgroundImage, backgroundCr
     // Re-evaluate when crossing the breakpoint or toggling reduced-motion.
     desktop.addEventListener("change", update);
     reduce.addEventListener("change", update);
-  }
+    cleanupParallax = () => {
+      window.removeEventListener("scroll", onScroll);
+      desktop.removeEventListener("change", update);
+      reduce.removeEventListener("change", update);
+    };
+  };
+
+  // ClientRouter swaps page content without rerunning this bundled module.
+  document.addEventListener("astro:page-load", initParallax);
+  initParallax();
 </script>
